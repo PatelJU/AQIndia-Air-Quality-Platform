@@ -1,0 +1,2054 @@
+[
+  {
+    "city_id": "delhi",
+    "city_name": "Delhi",
+    "state": "Delhi",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.312,
+    "significant": true,
+    "annual_averages": [
+      223,
+      218,
+      216,
+      214,
+      211,
+      201
+    ]
+  },
+  {
+    "city_id": "noida",
+    "city_name": "Noida",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.6003,
+    "significant": true,
+    "annual_averages": [
+      212,
+      208,
+      207,
+      204,
+      197,
+      194
+    ]
+  },
+  {
+    "city_id": "gurgaon",
+    "city_name": "Gurgaon",
+    "state": "Haryana",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -0.867,
+    "p_value": 0.0242,
+    "sens_slope": -3.2462,
+    "significant": true,
+    "annual_averages": [
+      200,
+      196,
+      196,
+      191,
+      185,
+      184
+    ]
+  },
+  {
+    "city_id": "faridabad",
+    "city_name": "Faridabad",
+    "state": "Haryana",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.9794,
+    "significant": true,
+    "annual_averages": [
+      210,
+      203,
+      202,
+      202,
+      192,
+      190
+    ]
+  },
+  {
+    "city_id": "ghaziabad",
+    "city_name": "Ghaziabad",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -0.867,
+    "p_value": 0.0242,
+    "sens_slope": -4.12,
+    "significant": true,
+    "annual_averages": [
+      218,
+      217,
+      206,
+      208,
+      204,
+      197
+    ]
+  },
+  {
+    "city_id": "lucknow",
+    "city_name": "Lucknow",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.4164,
+    "significant": true,
+    "annual_averages": [
+      182,
+      179,
+      176,
+      172,
+      168,
+      165
+    ]
+  },
+  {
+    "city_id": "kanpur",
+    "city_name": "Kanpur",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -4.7053,
+    "significant": true,
+    "annual_averages": [
+      221,
+      215,
+      207,
+      206,
+      200,
+      197
+    ]
+  },
+  {
+    "city_id": "agra",
+    "city_name": "Agra",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.974,
+    "significant": true,
+    "annual_averages": [
+      186,
+      182,
+      178,
+      174,
+      170,
+      169
+    ]
+  },
+  {
+    "city_id": "varanasi",
+    "city_name": "Varanasi",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.4274,
+    "significant": true,
+    "annual_averages": [
+      169,
+      169,
+      163,
+      161,
+      157,
+      153
+    ]
+  },
+  {
+    "city_id": "allahabad",
+    "city_name": "Prayagraj",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.3205,
+    "significant": true,
+    "annual_averages": [
+      173,
+      171,
+      166,
+      164,
+      159,
+      158
+    ]
+  },
+  {
+    "city_id": "meerut",
+    "city_name": "Meerut",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.5288,
+    "significant": true,
+    "annual_averages": [
+      190,
+      187,
+      182,
+      180,
+      176,
+      171
+    ]
+  },
+  {
+    "city_id": "amritsar",
+    "city_name": "Amritsar",
+    "state": "Punjab",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.8675,
+    "significant": true,
+    "annual_averages": [
+      159,
+      155,
+      153,
+      151,
+      148,
+      143
+    ]
+  },
+  {
+    "city_id": "ludhiana",
+    "city_name": "Ludhiana",
+    "state": "Punjab",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.4233,
+    "significant": true,
+    "annual_averages": [
+      166,
+      162,
+      158,
+      155,
+      152,
+      148
+    ]
+  },
+  {
+    "city_id": "chandigarh",
+    "city_name": "Chandigarh",
+    "state": "Chandigarh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.4048,
+    "significant": true,
+    "annual_averages": [
+      140,
+      138,
+      134,
+      132,
+      130,
+      128
+    ]
+  },
+  {
+    "city_id": "jaipur",
+    "city_name": "Jaipur",
+    "state": "Rajasthan",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.8653,
+    "significant": true,
+    "annual_averages": [
+      153,
+      151,
+      147,
+      143,
+      142,
+      138
+    ]
+  },
+  {
+    "city_id": "jodhpur",
+    "city_name": "Jodhpur",
+    "state": "Rajasthan",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.9324,
+    "significant": true,
+    "annual_averages": [
+      147,
+      144,
+      141,
+      138,
+      136,
+      132
+    ]
+  },
+  {
+    "city_id": "kota",
+    "city_name": "Kota",
+    "state": "Rajasthan",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.7031,
+    "significant": true,
+    "annual_averages": [
+      151,
+      147,
+      145,
+      141,
+      139,
+      137
+    ]
+  },
+  {
+    "city_id": "dehradun",
+    "city_name": "Dehradun",
+    "state": "Uttarakhand",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.2701,
+    "significant": true,
+    "annual_averages": [
+      112,
+      110,
+      107,
+      105,
+      103,
+      101
+    ]
+  },
+  {
+    "city_id": "kolkata",
+    "city_name": "Kolkata",
+    "state": "West Bengal",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.1475,
+    "significant": true,
+    "annual_averages": [
+      161,
+      156,
+      154,
+      151,
+      146,
+      145
+    ]
+  },
+  {
+    "city_id": "howrah",
+    "city_name": "Howrah",
+    "state": "West Bengal",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.126,
+    "significant": true,
+    "annual_averages": [
+      164,
+      160,
+      155,
+      154,
+      152,
+      147
+    ]
+  },
+  {
+    "city_id": "patna",
+    "city_name": "Patna",
+    "state": "Bihar",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.6884,
+    "significant": true,
+    "annual_averages": [
+      173,
+      168,
+      166,
+      161,
+      159,
+      153
+    ]
+  },
+  {
+    "city_id": "ranchi",
+    "city_name": "Ranchi",
+    "state": "Jharkhand",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.3733,
+    "significant": true,
+    "annual_averages": [
+      127,
+      127,
+      124,
+      120,
+      118,
+      116
+    ]
+  },
+  {
+    "city_id": "dhanbad",
+    "city_name": "Dhanbad",
+    "state": "Jharkhand",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.8891,
+    "significant": true,
+    "annual_averages": [
+      194,
+      189,
+      188,
+      184,
+      179,
+      175
+    ]
+  },
+  {
+    "city_id": "bhubaneswar",
+    "city_name": "Bhubaneswar",
+    "state": "Odisha",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.555,
+    "significant": true,
+    "annual_averages": [
+      118,
+      116,
+      113,
+      110,
+      108,
+      105
+    ]
+  },
+  {
+    "city_id": "cuttack",
+    "city_name": "Cuttack",
+    "state": "Odisha",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.1644,
+    "significant": true,
+    "annual_averages": [
+      116,
+      113,
+      110,
+      108,
+      107,
+      105
+    ]
+  },
+  {
+    "city_id": "guwahati",
+    "city_name": "Guwahati",
+    "state": "Assam",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.7746,
+    "significant": true,
+    "annual_averages": [
+      90,
+      88,
+      87,
+      85,
+      83,
+      81
+    ]
+  },
+  {
+    "city_id": "mumbai",
+    "city_name": "Mumbai",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.5464,
+    "significant": true,
+    "annual_averages": [
+      128,
+      125,
+      121,
+      120,
+      116,
+      115
+    ]
+  },
+  {
+    "city_id": "pune",
+    "city_name": "Pune",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.3041,
+    "significant": true,
+    "annual_averages": [
+      116,
+      114,
+      112,
+      109,
+      107,
+      105
+    ]
+  },
+  {
+    "city_id": "nagpur",
+    "city_name": "Nagpur",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.709,
+    "significant": true,
+    "annual_averages": [
+      125,
+      121,
+      119,
+      117,
+      114,
+      111
+    ]
+  },
+  {
+    "city_id": "nashik",
+    "city_name": "Nashik",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.3056,
+    "significant": true,
+    "annual_averages": [
+      113,
+      111,
+      109,
+      107,
+      104,
+      102
+    ]
+  },
+  {
+    "city_id": "thane",
+    "city_name": "Thane",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.6557,
+    "significant": true,
+    "annual_averages": [
+      125,
+      121,
+      119,
+      116,
+      114,
+      111
+    ]
+  },
+  {
+    "city_id": "ahmedabad",
+    "city_name": "Ahmedabad",
+    "state": "Gujarat",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.791,
+    "significant": true,
+    "annual_averages": [
+      142,
+      138,
+      136,
+      132,
+      130,
+      128
+    ]
+  },
+  {
+    "city_id": "surat",
+    "city_name": "Surat",
+    "state": "Gujarat",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.7911,
+    "significant": true,
+    "annual_averages": [
+      135,
+      132,
+      129,
+      126,
+      124,
+      121
+    ]
+  },
+  {
+    "city_id": "vadodara",
+    "city_name": "Vadodara",
+    "state": "Gujarat",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.6494,
+    "significant": true,
+    "annual_averages": [
+      128,
+      125,
+      124,
+      121,
+      118,
+      115
+    ]
+  },
+  {
+    "city_id": "rajkot",
+    "city_name": "Rajkot",
+    "state": "Gujarat",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.2343,
+    "significant": true,
+    "annual_averages": [
+      123,
+      121,
+      119,
+      117,
+      114,
+      112
+    ]
+  },
+  {
+    "city_id": "goa",
+    "city_name": "Panaji",
+    "state": "Goa",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.0371,
+    "significant": true,
+    "annual_averages": [
+      47,
+      46,
+      45,
+      44,
+      44,
+      42
+    ]
+  },
+  {
+    "city_id": "bangalore",
+    "city_name": "Bengaluru",
+    "state": "Karnataka",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.747,
+    "significant": true,
+    "annual_averages": [
+      85,
+      84,
+      82,
+      80,
+      79,
+      77
+    ]
+  },
+  {
+    "city_id": "mysore",
+    "city_name": "Mysuru",
+    "state": "Karnataka",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.4289,
+    "significant": true,
+    "annual_averages": [
+      70,
+      69,
+      67,
+      66,
+      65,
+      63
+    ]
+  },
+  {
+    "city_id": "hubli",
+    "city_name": "Hubballi",
+    "state": "Karnataka",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.6517,
+    "significant": true,
+    "annual_averages": [
+      82,
+      81,
+      79,
+      77,
+      76,
+      74
+    ]
+  },
+  {
+    "city_id": "mangalore",
+    "city_name": "Mangaluru",
+    "state": "Karnataka",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.1913,
+    "significant": true,
+    "annual_averages": [
+      65,
+      63,
+      63,
+      62,
+      60,
+      59
+    ]
+  },
+  {
+    "city_id": "chennai",
+    "city_name": "Chennai",
+    "state": "Tamil Nadu",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.0804,
+    "significant": true,
+    "annual_averages": [
+      103,
+      101,
+      99,
+      97,
+      95,
+      92
+    ]
+  },
+  {
+    "city_id": "coimbatore",
+    "city_name": "Coimbatore",
+    "state": "Tamil Nadu",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.7418,
+    "significant": true,
+    "annual_averages": [
+      92,
+      90,
+      88,
+      87,
+      85,
+      83
+    ]
+  },
+  {
+    "city_id": "madurai",
+    "city_name": "Madurai",
+    "state": "Tamil Nadu",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.7945,
+    "significant": true,
+    "annual_averages": [
+      89,
+      87,
+      85,
+      83,
+      81,
+      80
+    ]
+  },
+  {
+    "city_id": "hyderabad",
+    "city_name": "Hyderabad",
+    "state": "Telangana",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.9428,
+    "significant": true,
+    "annual_averages": [
+      94,
+      93,
+      91,
+      89,
+      87,
+      85
+    ]
+  },
+  {
+    "city_id": "visakhapatnam",
+    "city_name": "Visakhapatnam",
+    "state": "Andhra Pradesh",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.9297,
+    "significant": true,
+    "annual_averages": [
+      92,
+      91,
+      89,
+      87,
+      85,
+      83
+    ]
+  },
+  {
+    "city_id": "vijayawada",
+    "city_name": "Vijayawada",
+    "state": "Andhra Pradesh",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.7586,
+    "significant": true,
+    "annual_averages": [
+      88,
+      86,
+      85,
+      82,
+      81,
+      79
+    ]
+  },
+  {
+    "city_id": "kochi",
+    "city_name": "Kochi",
+    "state": "Kerala",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.3499,
+    "significant": true,
+    "annual_averages": [
+      72,
+      71,
+      69,
+      68,
+      66,
+      65
+    ]
+  },
+  {
+    "city_id": "thiruvananthapuram",
+    "city_name": "Thiruvananthapuram",
+    "state": "Kerala",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.3545,
+    "significant": true,
+    "annual_averages": [
+      68,
+      67,
+      65,
+      64,
+      63,
+      61
+    ]
+  },
+  {
+    "city_id": "kozhikode",
+    "city_name": "Kozhikode",
+    "state": "Kerala",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.3822,
+    "significant": true,
+    "annual_averages": [
+      65,
+      64,
+      63,
+      61,
+      60,
+      58
+    ]
+  },
+  {
+    "city_id": "bhopal",
+    "city_name": "Bhopal",
+    "state": "Madhya Pradesh",
+    "region": "Central",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.7097,
+    "significant": true,
+    "annual_averages": [
+      143,
+      139,
+      136,
+      134,
+      131,
+      129
+    ]
+  },
+  {
+    "city_id": "indore",
+    "city_name": "Indore",
+    "state": "Madhya Pradesh",
+    "region": "Central",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.1329,
+    "significant": true,
+    "annual_averages": [
+      147,
+      144,
+      140,
+      137,
+      135,
+      131
+    ]
+  },
+  {
+    "city_id": "jabalpur",
+    "city_name": "Jabalpur",
+    "state": "Madhya Pradesh",
+    "region": "Central",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.5842,
+    "significant": true,
+    "annual_averages": [
+      131,
+      129,
+      125,
+      123,
+      121,
+      118
+    ]
+  },
+  {
+    "city_id": "raipur",
+    "city_name": "Raipur",
+    "state": "Chhattisgarh",
+    "region": "Central",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.6712,
+    "significant": true,
+    "annual_averages": [
+      139,
+      136,
+      132,
+      129,
+      129,
+      126
+    ]
+  },
+  {
+    "city_id": "bilaspur",
+    "city_name": "Bilaspur",
+    "state": "Chhattisgarh",
+    "region": "Central",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.8589,
+    "significant": true,
+    "annual_averages": [
+      143,
+      142,
+      138,
+      135,
+      132,
+      131
+    ]
+  },
+  {
+    "city_id": "agartala",
+    "city_name": "Agartala",
+    "state": "Tripura",
+    "region": "Northeast",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.5059,
+    "significant": true,
+    "annual_averages": [
+      74,
+      73,
+      70,
+      69,
+      68,
+      66
+    ]
+  },
+  {
+    "city_id": "shillong",
+    "city_name": "Shillong",
+    "state": "Meghalaya",
+    "region": "Northeast",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -0.8765,
+    "significant": true,
+    "annual_averages": [
+      43,
+      43,
+      41,
+      41,
+      40,
+      39
+    ]
+  },
+  {
+    "city_id": "imphal",
+    "city_name": "Imphal",
+    "state": "Manipur",
+    "region": "Northeast",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.0096,
+    "significant": true,
+    "annual_averages": [
+      51,
+      50,
+      49,
+      48,
+      47,
+      46
+    ]
+  },
+  {
+    "city_id": "aizawl",
+    "city_name": "Aizawl",
+    "state": "Mizoram",
+    "region": "Northeast",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -0.7147,
+    "significant": true,
+    "annual_averages": [
+      38,
+      37,
+      36,
+      36,
+      35,
+      34
+    ]
+  },
+  {
+    "city_id": "srinagar",
+    "city_name": "Srinagar",
+    "state": "Jammu & Kashmir",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.2329,
+    "significant": true,
+    "annual_averages": [
+      104,
+      100,
+      100,
+      98,
+      95,
+      93
+    ]
+  },
+  {
+    "city_id": "jammu",
+    "city_name": "Jammu",
+    "state": "Jammu & Kashmir",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.137,
+    "significant": true,
+    "annual_averages": [
+      112,
+      109,
+      107,
+      104,
+      103,
+      101
+    ]
+  },
+  {
+    "city_id": "shimla",
+    "city_name": "Shimla",
+    "state": "Himachal Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.2438,
+    "significant": true,
+    "annual_averages": [
+      65,
+      63,
+      62,
+      61,
+      60,
+      58
+    ]
+  },
+  {
+    "city_id": "haridwar",
+    "city_name": "Haridwar",
+    "state": "Uttarakhand",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.8123,
+    "significant": true,
+    "annual_averages": [
+      128,
+      125,
+      121,
+      120,
+      116,
+      113
+    ]
+  },
+  {
+    "city_id": "aligarh",
+    "city_name": "Aligarh",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.7446,
+    "significant": true,
+    "annual_averages": [
+      182,
+      178,
+      176,
+      170,
+      168,
+      163
+    ]
+  },
+  {
+    "city_id": "bareilly",
+    "city_name": "Bareilly",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.4283,
+    "significant": true,
+    "annual_averages": [
+      177,
+      172,
+      168,
+      167,
+      163,
+      159
+    ]
+  },
+  {
+    "city_id": "moradabad",
+    "city_name": "Moradabad",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.827,
+    "significant": true,
+    "annual_averages": [
+      186,
+      182,
+      179,
+      174,
+      171,
+      168
+    ]
+  },
+  {
+    "city_id": "gorakhpur",
+    "city_name": "Gorakhpur",
+    "state": "Uttar Pradesh",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.149,
+    "significant": true,
+    "annual_averages": [
+      171,
+      168,
+      164,
+      161,
+      158,
+      155
+    ]
+  },
+  {
+    "city_id": "bikaner",
+    "city_name": "Bikaner",
+    "state": "Rajasthan",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.6493,
+    "significant": true,
+    "annual_averages": [
+      139,
+      136,
+      133,
+      130,
+      129,
+      125
+    ]
+  },
+  {
+    "city_id": "ajmer",
+    "city_name": "Ajmer",
+    "state": "Rajasthan",
+    "region": "North",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.126,
+    "significant": true,
+    "annual_averages": [
+      144,
+      141,
+      138,
+      135,
+      132,
+      128
+    ]
+  },
+  {
+    "city_id": "bhilai",
+    "city_name": "Bhilai",
+    "state": "Chhattisgarh",
+    "region": "Central",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.9616,
+    "significant": true,
+    "annual_averages": [
+      152,
+      151,
+      146,
+      144,
+      142,
+      137
+    ]
+  },
+  {
+    "city_id": "aurangabad",
+    "city_name": "Aurangabad",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.5872,
+    "significant": true,
+    "annual_averages": [
+      121,
+      118,
+      116,
+      114,
+      110,
+      108
+    ]
+  },
+  {
+    "city_id": "solapur",
+    "city_name": "Solapur",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.4799,
+    "significant": true,
+    "annual_averages": [
+      114,
+      111,
+      110,
+      107,
+      104,
+      102
+    ]
+  },
+  {
+    "city_id": "kolhapur",
+    "city_name": "Kolhapur",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.0182,
+    "significant": true,
+    "annual_averages": [
+      100,
+      98,
+      95,
+      94,
+      92,
+      90
+    ]
+  },
+  {
+    "city_id": "amravati",
+    "city_name": "Amravati",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.3726,
+    "significant": true,
+    "annual_averages": [
+      110,
+      108,
+      106,
+      104,
+      101,
+      98
+    ]
+  },
+  {
+    "city_id": "bhavnagar",
+    "city_name": "Bhavnagar",
+    "state": "Gujarat",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.2309,
+    "significant": true,
+    "annual_averages": [
+      117,
+      115,
+      113,
+      110,
+      108,
+      106
+    ]
+  },
+  {
+    "city_id": "jamnagar",
+    "city_name": "Jamnagar",
+    "state": "Gujarat",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.3096,
+    "significant": true,
+    "annual_averages": [
+      113,
+      112,
+      109,
+      107,
+      104,
+      102
+    ]
+  },
+  {
+    "city_id": "gandhinagar",
+    "city_name": "Gandhinagar",
+    "state": "Gujarat",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.5518,
+    "significant": true,
+    "annual_averages": [
+      124,
+      122,
+      119,
+      116,
+      114,
+      111
+    ]
+  },
+  {
+    "city_id": "tirupati",
+    "city_name": "Tirupati",
+    "state": "Andhra Pradesh",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.6909,
+    "significant": true,
+    "annual_averages": [
+      82,
+      81,
+      79,
+      77,
+      75,
+      74
+    ]
+  },
+  {
+    "city_id": "warangal",
+    "city_name": "Warangal",
+    "state": "Telangana",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.1012,
+    "significant": true,
+    "annual_averages": [
+      95,
+      93,
+      91,
+      89,
+      87,
+      85
+    ]
+  },
+  {
+    "city_id": "nellore",
+    "city_name": "Nellore",
+    "state": "Andhra Pradesh",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.7868,
+    "significant": true,
+    "annual_averages": [
+      88,
+      86,
+      85,
+      83,
+      80,
+      79
+    ]
+  },
+  {
+    "city_id": "guntur",
+    "city_name": "Guntur",
+    "state": "Andhra Pradesh",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.6952,
+    "significant": true,
+    "annual_averages": [
+      90,
+      88,
+      87,
+      85,
+      83,
+      81
+    ]
+  },
+  {
+    "city_id": "salem",
+    "city_name": "Salem",
+    "state": "Tamil Nadu",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.8211,
+    "significant": true,
+    "annual_averages": [
+      85,
+      83,
+      82,
+      79,
+      78,
+      76
+    ]
+  },
+  {
+    "city_id": "tiruchirappalli",
+    "city_name": "Tiruchirappalli",
+    "state": "Tamil Nadu",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.7761,
+    "significant": true,
+    "annual_averages": [
+      82,
+      81,
+      78,
+      77,
+      75,
+      73
+    ]
+  },
+  {
+    "city_id": "tirunelveli",
+    "city_name": "Tirunelveli",
+    "state": "Tamil Nadu",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.5089,
+    "significant": true,
+    "annual_averages": [
+      75,
+      73,
+      72,
+      70,
+      69,
+      67
+    ]
+  },
+  {
+    "city_id": "thrissur",
+    "city_name": "Thrissur",
+    "state": "Kerala",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.2696,
+    "significant": true,
+    "annual_averages": [
+      68,
+      67,
+      66,
+      64,
+      63,
+      62
+    ]
+  },
+  {
+    "city_id": "kannur",
+    "city_name": "Kannur",
+    "state": "Kerala",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.209,
+    "significant": true,
+    "annual_averages": [
+      62,
+      61,
+      59,
+      58,
+      57,
+      56
+    ]
+  },
+  {
+    "city_id": "belgaum",
+    "city_name": "Belagavi",
+    "state": "Karnataka",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.5014,
+    "significant": true,
+    "annual_averages": [
+      78,
+      76,
+      75,
+      73,
+      71,
+      70
+    ]
+  },
+  {
+    "city_id": "gulbarga",
+    "city_name": "Kalaburagi",
+    "state": "Karnataka",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.7689,
+    "significant": true,
+    "annual_averages": [
+      82,
+      80,
+      78,
+      77,
+      76,
+      73
+    ]
+  },
+  {
+    "city_id": "davangere",
+    "city_name": "Davangere",
+    "state": "Karnataka",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.5573,
+    "significant": true,
+    "annual_averages": [
+      80,
+      79,
+      77,
+      75,
+      74,
+      72
+    ]
+  },
+  {
+    "city_id": "bellary",
+    "city_name": "Ballari",
+    "state": "Karnataka",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.8685,
+    "significant": true,
+    "annual_averages": [
+      89,
+      86,
+      85,
+      83,
+      81,
+      79
+    ]
+  },
+  {
+    "city_id": "bokaro",
+    "city_name": "Bokaro",
+    "state": "Jharkhand",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.9893,
+    "significant": true,
+    "annual_averages": [
+      186,
+      182,
+      178,
+      173,
+      170,
+      166
+    ]
+  },
+  {
+    "city_id": "jamshedpur",
+    "city_name": "Jamshedpur",
+    "state": "Jharkhand",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -0.867,
+    "p_value": 0.0242,
+    "sens_slope": -3.1096,
+    "significant": true,
+    "annual_averages": [
+      172,
+      170,
+      167,
+      162,
+      163,
+      156
+    ]
+  },
+  {
+    "city_id": "durgapur",
+    "city_name": "Durgapur",
+    "state": "West Bengal",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.2433,
+    "significant": true,
+    "annual_averages": [
+      156,
+      152,
+      149,
+      146,
+      141,
+      140
+    ]
+  },
+  {
+    "city_id": "asansol",
+    "city_name": "Asansol",
+    "state": "West Bengal",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.0719,
+    "significant": true,
+    "annual_averages": [
+      160,
+      157,
+      153,
+      151,
+      148,
+      144
+    ]
+  },
+  {
+    "city_id": "siliguri",
+    "city_name": "Siliguri",
+    "state": "West Bengal",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.11,
+    "significant": true,
+    "annual_averages": [
+      103,
+      100,
+      97,
+      96,
+      94,
+      92
+    ]
+  },
+  {
+    "city_id": "muzaffarpur",
+    "city_name": "Muzaffarpur",
+    "state": "Bihar",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.2453,
+    "significant": true,
+    "annual_averages": [
+      158,
+      156,
+      153,
+      148,
+      146,
+      142
+    ]
+  },
+  {
+    "city_id": "gaya",
+    "city_name": "Gaya",
+    "state": "Bihar",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -3.0058,
+    "significant": true,
+    "annual_averages": [
+      151,
+      149,
+      146,
+      144,
+      139,
+      136
+    ]
+  },
+  {
+    "city_id": "bhagalpur",
+    "city_name": "Bhagalpur",
+    "state": "Bihar",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.8877,
+    "significant": true,
+    "annual_averages": [
+      148,
+      146,
+      142,
+      139,
+      136,
+      133
+    ]
+  },
+  {
+    "city_id": "rourkela",
+    "city_name": "Rourkela",
+    "state": "Odisha",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.6714,
+    "significant": true,
+    "annual_averages": [
+      139,
+      136,
+      134,
+      132,
+      127,
+      125
+    ]
+  },
+  {
+    "city_id": "sambalpur",
+    "city_name": "Sambalpur",
+    "state": "Odisha",
+    "region": "East",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.6541,
+    "significant": true,
+    "annual_averages": [
+      128,
+      124,
+      121,
+      120,
+      117,
+      113
+    ]
+  },
+  {
+    "city_id": "navi_mumbai",
+    "city_name": "Navi Mumbai",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.5644,
+    "significant": true,
+    "annual_averages": [
+      124,
+      122,
+      119,
+      117,
+      114,
+      111
+    ]
+  },
+  {
+    "city_id": "pimpri",
+    "city_name": "Pimpri-Chinchwad",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.1919,
+    "significant": true,
+    "annual_averages": [
+      117,
+      114,
+      113,
+      110,
+      108,
+      106
+    ]
+  },
+  {
+    "city_id": "kalyan",
+    "city_name": "Kalyan-Dombivli",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.4808,
+    "significant": true,
+    "annual_averages": [
+      126,
+      123,
+      121,
+      119,
+      116,
+      113
+    ]
+  },
+  {
+    "city_id": "vasai",
+    "city_name": "Vasai-Virar",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.3939,
+    "significant": true,
+    "annual_averages": [
+      121,
+      119,
+      116,
+      114,
+      111,
+      109
+    ]
+  },
+  {
+    "city_id": "mira_bhayandar",
+    "city_name": "Mira-Bhayandar",
+    "state": "Maharashtra",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -2.3449,
+    "significant": true,
+    "annual_averages": [
+      123,
+      122,
+      119,
+      116,
+      114,
+      112
+    ]
+  },
+  {
+    "city_id": "dibrugarh",
+    "city_name": "Dibrugarh",
+    "state": "Assam",
+    "region": "Northeast",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.3927,
+    "significant": true,
+    "annual_averages": [
+      71,
+      69,
+      68,
+      67,
+      65,
+      64
+    ]
+  },
+  {
+    "city_id": "silchar",
+    "city_name": "Silchar",
+    "state": "Assam",
+    "region": "Northeast",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -1.2536,
+    "significant": true,
+    "annual_averages": [
+      67,
+      65,
+      64,
+      63,
+      62,
+      60
+    ]
+  },
+  {
+    "city_id": "port_blair",
+    "city_name": "Port Blair",
+    "state": "Andaman & Nicobar",
+    "region": "South",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -0.6798,
+    "significant": true,
+    "annual_averages": [
+      35,
+      34,
+      34,
+      33,
+      32,
+      32
+    ]
+  },
+  {
+    "city_id": "panaji",
+    "city_name": "Margao",
+    "state": "Goa",
+    "region": "West",
+    "trend": "decreasing",
+    "tau": -1.0,
+    "p_value": 0.0085,
+    "sens_slope": -0.8909,
+    "significant": true,
+    "annual_averages": [
+      44,
+      43,
+      42,
+      41,
+      41,
+      40
+    ]
+  }
+]

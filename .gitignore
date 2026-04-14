@@ -1,0 +1,38 @@
+# Root project .gitignore
+
+# Python translation/automation scripts (root level)
+auto_translate_all.py
+complete_translations.py
+translate_all.py
+*.pyc
+__pycache__/
+
+# AI Assistant folders
+.manus/
+.manus-logs/
+.webdev/
+.qoder/
+
+# Node modules (if any at root)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Backup files
+*.bak
+*.backup
+
+# Documentation builds (if any)
+aqindia-docs/_book/
+aqindia-docs/node_modules/

@@ -1,0 +1,182 @@
+[
+  {
+    "feature": "pm25_lag1",
+    "feature_label": "PM2.5 (t-1)",
+    "mean_abs_shap": 0.185,
+    "xgboost": 0.198,
+    "random_forest": 0.1455,
+    "ensemble": 0.185,
+    "direction": "positive"
+  },
+  {
+    "feature": "pm10_lag1",
+    "feature_label": "PM10 (t-1)",
+    "mean_abs_shap": 0.142,
+    "xgboost": 0.1334,
+    "random_forest": 0.1288,
+    "ensemble": 0.142,
+    "direction": "positive"
+  },
+  {
+    "feature": "aqi_lag1",
+    "feature_label": "AQI (t-1)",
+    "mean_abs_shap": 0.138,
+    "xgboost": 0.1442,
+    "random_forest": 0.1307,
+    "ensemble": 0.138,
+    "direction": "positive"
+  },
+  {
+    "feature": "temperature",
+    "feature_label": "Temperature",
+    "mean_abs_shap": 0.112,
+    "xgboost": 0.11,
+    "random_forest": 0.1044,
+    "ensemble": 0.112,
+    "direction": "positive"
+  },
+  {
+    "feature": "humidity",
+    "feature_label": "Humidity",
+    "mean_abs_shap": 0.098,
+    "xgboost": 0.0989,
+    "random_forest": 0.0901,
+    "ensemble": 0.098,
+    "direction": "negative"
+  },
+  {
+    "feature": "wind_speed",
+    "feature_label": "Wind Speed",
+    "mean_abs_shap": 0.092,
+    "xgboost": 0.0943,
+    "random_forest": 0.0888,
+    "ensemble": 0.092,
+    "direction": "negative"
+  },
+  {
+    "feature": "month",
+    "feature_label": "Month",
+    "mean_abs_shap": 0.078,
+    "xgboost": 0.0792,
+    "random_forest": 0.0666,
+    "ensemble": 0.078,
+    "direction": "positive"
+  },
+  {
+    "feature": "no2_lag1",
+    "feature_label": "NO\u2082 (t-1)",
+    "mean_abs_shap": 0.065,
+    "xgboost": 0.0593,
+    "random_forest": 0.0596,
+    "ensemble": 0.065,
+    "direction": "positive"
+  },
+  {
+    "feature": "day_of_week",
+    "feature_label": "Day of Week",
+    "mean_abs_shap": 0.048,
+    "xgboost": 0.0426,
+    "random_forest": 0.0473,
+    "ensemble": 0.048,
+    "direction": "positive"
+  },
+  {
+    "feature": "pressure",
+    "feature_label": "Pressure",
+    "mean_abs_shap": 0.042,
+    "xgboost": 0.0421,
+    "random_forest": 0.0459,
+    "ensemble": 0.042,
+    "direction": "positive"
+  },
+  {
+    "feature": "aqi_lag7",
+    "feature_label": "AQI (t-7)",
+    "mean_abs_shap": 0.038,
+    "xgboost": 0.0423,
+    "random_forest": 0.0424,
+    "ensemble": 0.038,
+    "direction": "positive"
+  },
+  {
+    "feature": "so2_lag1",
+    "feature_label": "SO\u2082 (t-1)",
+    "mean_abs_shap": 0.032,
+    "xgboost": 0.0312,
+    "random_forest": 0.025,
+    "ensemble": 0.032,
+    "direction": "positive"
+  },
+  {
+    "feature": "visibility",
+    "feature_label": "Visibility",
+    "mean_abs_shap": 0.028,
+    "xgboost": 0.0298,
+    "random_forest": 0.0302,
+    "ensemble": 0.028,
+    "direction": "negative"
+  },
+  {
+    "feature": "pm25_rolling7",
+    "feature_label": "PM2.5 7-day avg",
+    "mean_abs_shap": 0.025,
+    "xgboost": 0.0254,
+    "random_forest": 0.0225,
+    "ensemble": 0.025,
+    "direction": "positive"
+  },
+  {
+    "feature": "season",
+    "feature_label": "Season",
+    "mean_abs_shap": 0.022,
+    "xgboost": 0.0227,
+    "random_forest": 0.0217,
+    "ensemble": 0.022,
+    "direction": "positive"
+  },
+  {
+    "feature": "pm10_rolling7",
+    "feature_label": "PM10 7-day avg",
+    "mean_abs_shap": 0.018,
+    "xgboost": 0.0208,
+    "random_forest": 0.0187,
+    "ensemble": 0.018,
+    "direction": "positive"
+  },
+  {
+    "feature": "o3",
+    "feature_label": "O\u2083",
+    "mean_abs_shap": 0.015,
+    "xgboost": 0.0153,
+    "random_forest": 0.0128,
+    "ensemble": 0.015,
+    "direction": "positive"
+  },
+  {
+    "feature": "co_lag1",
+    "feature_label": "CO (t-1)",
+    "mean_abs_shap": 0.012,
+    "xgboost": 0.0111,
+    "random_forest": 0.0147,
+    "ensemble": 0.012,
+    "direction": "positive"
+  },
+  {
+    "feature": "day_of_year",
+    "feature_label": "Day of Year",
+    "mean_abs_shap": 0.01,
+    "xgboost": 0.0104,
+    "random_forest": 0.0059,
+    "ensemble": 0.01,
+    "direction": "positive"
+  },
+  {
+    "feature": "aqi_rolling30",
+    "feature_label": "AQI 30-day avg",
+    "mean_abs_shap": 0.008,
+    "xgboost": 0.0078,
+    "random_forest": 0.0076,
+    "ensemble": 0.008,
+    "direction": "positive"
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "feature": "Pollution_Index",
+    "importance": 0.9672326033913092,
+    "mean_abs_shap": 0.9672326033913092,
+    "direction": "positive"
+  },
+  {
+    "feature": "SO2",
+    "importance": 0.010224737543481568,
+    "mean_abs_shap": 0.010224737543481568,
+    "direction": "positive"
+  },
+  {
+    "feature": "NH3",
+    "importance": 0.0063749146305579546,
+    "mean_abs_shap": 0.0063749146305579546,
+    "direction": "positive"
+  },
+  {
+    "feature": "NOx",
+    "importance": 0.002867825751617441,
+    "mean_abs_shap": 0.002867825751617441,
+    "direction": "positive"
+  },
+  {
+    "feature": "CO",
+    "importance": 0.0011069980571511472,
+    "mean_abs_shap": 0.001106998057151147,
+    "direction": "positive"
+  },
+  {
+    "feature": "NO",
+    "importance": 0.0008868084095640565,
+    "mean_abs_shap": 0.0008868084095640565,
+    "direction": "positive"
+  },
+  {
+    "feature": "NO2",
+    "importance": 0.0007077400827344409,
+    "mean_abs_shap": 0.0007077400827344409,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM25_rolling_mean_7",
+    "importance": 0.0007047989252171111,
+    "mean_abs_shap": 0.0007047989252171111,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM25_rolling_mean_30",
+    "importance": 0.0006047737207008947,
+    "mean_abs_shap": 0.0006047737207008947,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM10_lag_1",
+    "importance": 0.0005979915931125525,
+    "mean_abs_shap": 0.0005979915931125525,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM2.5",
+    "importance": 0.000580905038270937,
+    "mean_abs_shap": 0.000580905038270937,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM25_rolling_std_7",
+    "importance": 0.0005712290635305429,
+    "mean_abs_shap": 0.0005712290635305429,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM25_rolling_std_30",
+    "importance": 0.0005609358018699261,
+    "mean_abs_shap": 0.0005609358018699261,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM25_lag_1",
+    "importance": 0.0005519013261502444,
+    "mean_abs_shap": 0.0005519013261502443,
+    "direction": "positive"
+  },
+  {
+    "feature": "NO2_lag_1",
+    "importance": 0.0005501080301974891,
+    "mean_abs_shap": 0.0005501080301974891,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM10_lag_7",
+    "importance": 0.0005318708328467201,
+    "mean_abs_shap": 0.00053187083284672,
+    "direction": "positive"
+  },
+  {
+    "feature": "NO2_lag_7",
+    "importance": 0.0005231265377780017,
+    "mean_abs_shap": 0.0005231265377780017,
+    "direction": "positive"
+  },
+  {
+    "feature": "Day",
+    "importance": 0.0005067345085567025,
+    "mean_abs_shap": 0.0005067345085567025,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM25_lag_7",
+    "importance": 0.0005023027337578996,
+    "mean_abs_shap": 0.0005023027337578996,
+    "direction": "positive"
+  },
+  {
+    "feature": "PM10",
+    "importance": 0.0005016338534448181,
+    "mean_abs_shap": 0.0005016338534448181,
+    "direction": "positive"
+  }
+]

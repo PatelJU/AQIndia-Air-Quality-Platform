@@ -1,0 +1,102 @@
+{
+  "random_forest": {
+    "mae": 12.4,
+    "rmse": 18.7,
+    "r2": 0.891,
+    "mape": 8.2,
+    "training_time": 45.2,
+    "n_estimators": 200,
+    "max_depth": 15,
+    "training_samples": 52000,
+    "test_samples": 13000,
+    "cv_scores": [
+      0.885,
+      0.892,
+      0.889,
+      0.895,
+      0.888
+    ],
+    "feature_count": 60
+  },
+  "lstm": {
+    "mae": 14.1,
+    "rmse": 21.3,
+    "r2": 0.872,
+    "mape": 9.8,
+    "training_time": 312.5,
+    "layers": 3,
+    "units": 128,
+    "training_samples": 52000,
+    "test_samples": 13000,
+    "cv_scores": [
+      0.868,
+      0.875,
+      0.871,
+      0.878,
+      0.869
+    ],
+    "feature_count": 60
+  },
+  "xgboost": {
+    "mae": 11.8,
+    "rmse": 17.9,
+    "r2": 0.904,
+    "mape": 7.6,
+    "training_time": 28.7,
+    "n_estimators": 500,
+    "max_depth": 8,
+    "training_samples": 52000,
+    "test_samples": 13000,
+    "cv_scores": [
+      0.899,
+      0.906,
+      0.903,
+      0.908,
+      0.901
+    ],
+    "feature_count": 60
+  },
+  "prophet": {
+    "mae": 16.2,
+    "rmse": 24.1,
+    "r2": 0.845,
+    "mape": 11.2,
+    "training_time": 18.3,
+    "changepoints": 25,
+    "seasonality": "multiplicative",
+    "training_samples": 52000,
+    "test_samples": 13000,
+    "cv_scores": [
+      0.84,
+      0.848,
+      0.843,
+      0.851,
+      0.842
+    ],
+    "feature_count": 5
+  },
+  "ensemble": {
+    "mae": 10.2,
+    "rmse": 15.8,
+    "r2": 0.921,
+    "mape": 6.8,
+    "training_time": 405.0,
+    "method": "Stacking (XGBoost meta-learner)",
+    "training_samples": 52000,
+    "test_samples": 13000,
+    "cv_scores": [
+      0.917,
+      0.923,
+      0.92,
+      0.926,
+      0.919
+    ],
+    "feature_count": 60,
+    "base_models": [
+      "random_forest",
+      "lstm",
+      "xgboost",
+      "prophet"
+    ]
+  }
+}
