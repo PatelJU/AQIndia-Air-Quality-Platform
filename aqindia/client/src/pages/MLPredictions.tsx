@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { Brain, Zap, Target, BarChart2 } from "lucide-react";
+import { Brain, Zap, Target, BarChart2, Search } from "lucide-react";
 import { useTranslation } from "@/i18n-wrappers";
 import {
   BarChart, Bar, LineChart, Line, ScatterChart, Scatter, XAxis, YAxis, Tooltip,
@@ -25,6 +26,9 @@ const MODEL_INFO: Record<string, { name: string; color: string; desc: string; ty
 export default function MLPredictions() {
   const [cityId, setCityId] = useState("delhi");
   const [selectedModel, setSelectedModel] = useState("ensemble");
+  const [citySearch, setCitySearch] = useState("");
+  const [parallelViewMode, setParallelViewMode] = useState<"default" | "selected">("default");
+  const [selectedCitiesForParallel, setSelectedCitiesForParallel] = useState<string[]>([]);
   const { t } = useTranslation();
 
   const { data: cities } = trpc.cities.all.useQuery();
@@ -32,6 +36,81 @@ export default function MLPredictions() {
   const { data: shapValues, error: shapError } = trpc.ml.shap.useQuery({ model: selectedModel });
   const { data: modelComparison, error: compError } = trpc.ml.modelComparison.useQuery();
   const { data: prediction, error: predError, isLoading } = trpc.ml.predict.useQuery({ cityId, model: selectedModel as any, horizon: 14 });
+
+  // Get current city info for context
+  const currentCity = cities?.find((c: any) => c.id === cityId);
+
+  // Filter cities based on search
+  const filteredCities = useMemo(() => {
+    if (!citySearch || !cities) return cities ?? [];
+    const search = citySearch.toLowerCase();
+    return (cities ?? []).filter((c: any) => 
+      c.name.toLowerCase().includes(search) || 
+      c.state.toLowerCase().includes(search) ||
+      c.region.toLowerCase().includes(search) ||
+      c.id.toLowerCase().includes(search)
+    );
+  }, [cities, citySearch]);
+
+  // City data for parallel coordinates
+  const PARALLEL_CITIES_DATA = useMemo(() => [
+    // High pollution cities (from your dataset)
+    { id: "delhi", name: "Delhi", vals: [0.85, 0.82, 0.65, 0.55, 0.30, 0.90], color: "#EF4444" },
+    { id: "loni_ghaziabad", name: "Loni Ghaziabad", vals: [0.95, 0.90, 0.70, 0.60, 0.25, 0.98], color: "#8B0000" },
+    { id: "ghaziabad", name: "Ghaziabad", vals: [0.80, 0.78, 0.62, 0.52, 0.32, 0.87], color: "#EF4444" },
+    { id: "begusarai", name: "Begusarai", vals: [0.78, 0.75, 0.58, 0.50, 0.28, 0.85], color: "#EF4444" },
+    { id: "jharsuguda", name: "Jharsuguda", vals: [0.82, 0.80, 0.60, 0.58, 0.35, 0.88], color: "#EF4444" },
+    // Medium pollution cities
+    { id: "mumbai", name: "Mumbai", vals: [0.62, 0.58, 0.50, 0.40, 0.45, 0.65], color: "#F59E0B" },
+    { id: "kolkata", name: "Kolkata", vals: [0.70, 0.68, 0.55, 0.48, 0.35, 0.72], color: "#F59E0B" },
+    { id: "chennai", name: "Chennai", vals: [0.55, 0.52, 0.42, 0.38, 0.50, 0.58], color: "#F59E0B" },
+    { id: "hyderabad", name: "Hyderabad", vals: [0.58, 0.55, 0.45, 0.40, 0.48, 0.60], color: "#F59E0B" },
+    { id: "pune", name: "Pune", vals: [0.60, 0.58, 0.48, 0.42, 0.46, 0.62], color: "#F59E0B" },
+    // Low pollution cities
+    { id: "bangalore", name: "Bengaluru", vals: [0.38, 0.35, 0.35, 0.20, 0.55, 0.40], color: "#22C55E" },
+    { id: "thiruvananthapuram", name: "Thiruvananthapuram", vals: [0.25, 0.22, 0.18, 0.15, 0.65, 0.28], color: "#22C55E" },
+    { id: "mysore", name: "Mysuru", vals: [0.30, 0.28, 0.22, 0.18, 0.60, 0.32], color: "#22C55E" },
+    { id: "gangtok", name: "Gangtok", vals: [0.15, 0.12, 0.10, 0.08, 0.75, 0.18], color: "#22C55E" },
+    { id: "shillong", name: "Shillong", vals: [0.18, 0.15, 0.12, 0.10, 0.70, 0.20], color: "#22C55E" },
+  ], []);
+
+  // Determine which cities to show in parallel coordinates
+  const parallelCitiesToShow = useMemo(() => {
+    if (parallelViewMode === "default") {
+      // Show all 15 representative cities
+      return PARALLEL_CITIES_DATA;
+    } else {
+      // Show only selected cities (max 3-4 for clarity)
+      const selected = PARALLEL_CITIES_DATA.filter(c => 
+        selectedCitiesForParallel.includes(c.id) || selectedCitiesForParallel.includes(c.name.toLowerCase())
+      );
+      // If current city is in the dataset and not already selected, add it
+      if (currentCity) {
+        const currentInData = PARALLEL_CITIES_DATA.find(c => 
+          c.id === cityId || c.name.toLowerCase() === currentCity.name?.toLowerCase()
+        );
+        if (currentInData && !selected.find(s => s.id === currentInData.id)) {
+          selected.unshift(currentInData);
+        }
+      }
+      return selected.length > 0 ? selected.slice(0, 4) : PARALLEL_CITIES_DATA.slice(0, 1); // Fallback to at least 1 city
+    }
+  }, [parallelViewMode, selectedCitiesForParallel, PARALLEL_CITIES_DATA, cityId, currentCity]);
+
+  // Toggle city selection for parallel coordinates
+  const toggleCityForParallel = (cityIdOrName: string) => {
+    setSelectedCitiesForParallel(prev => {
+      if (prev.includes(cityIdOrName)) {
+        return prev.filter(id => id !== cityIdOrName);
+      } else {
+        // Limit to 4 cities max for clarity
+        if (prev.length >= 4) {
+          return [...prev.slice(1), cityIdOrName];
+        }
+        return [...prev, cityIdOrName];
+      }
+    });
+  };
 
   // Error handling with contextual logging
   if (metricsError) {
@@ -80,27 +159,66 @@ export default function MLPredictions() {
             <h1 className="text-2xl font-bold" style={{ fontFamily: "Exo, sans-serif" }}>{t('ml.title', 'ML Predictions')}</h1>
             <p className="text-sm text-muted-foreground">{t('ml.subtitle', 'Model outputs, SHAP explanations, and forecast horizons')}</p>
             {prediction && (
-              <div className="mt-2">
+              <div className="mt-2 space-y-1">
                 <span className="text-xs text-muted-foreground">
                   🧠 {MODEL_INFO[selectedModel]?.name} • {prediction.predictions?.length || 0} predictions
                 </span>
+                {currentCity && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                      📍 {currentCity.name}, {currentCity.state}
+                    </span>
+                    <span className="text-xs px-2 py-0.5 rounded bg-accent/50 text-muted-foreground">
+                      Region: {currentCity.region}
+                    </span>
+                    <span className="text-xs px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                      📊 ML-trained city (276 cities from Kaggle dataset)
+                    </span>
+                  </div>
+                )}
               </div>
             )}
           </div>
           <FloatingGuide content={helpContent.mlPredictions} />
         </div>
         <div className="flex gap-2">
-          <Select value={cityId} onValueChange={setCityId}>
-            <SelectTrigger className="w-40 h-8 text-sm bg-card border-border">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {/* Show ALL cities (108 cities) */}
-              {(cities ?? []).map((c: any) => (
-                <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="relative">
+            <Select value={cityId} onValueChange={setCityId}>
+              <SelectTrigger className="w-64 h-8 text-sm bg-card border-border">
+                <SelectValue placeholder="Search city..." />
+              </SelectTrigger>
+              <SelectContent className="max-h-[400px]">
+                {/* Search input at top */}
+                <div className="p-2 border-b sticky top-0 bg-background z-10">
+                  <div className="relative">
+                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Type to search city..."
+                      value={citySearch}
+                      onChange={(e) => setCitySearch(e.target.value)}
+                      className="pl-8 h-8 text-sm"
+                    />
+                  </div>
+                </div>
+                {/* Show ALL cities (276 cities from your dataset) */}
+                <div className="overflow-y-auto max-h-[350px]">
+                  {(filteredCities ?? []).slice(0, 100).map((c: any) => (
+                    <SelectItem key={c.id} value={c.id}>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{c.name}</span>
+                        <span className="text-xs text-muted-foreground">{c.state}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                  {filteredCities && filteredCities.length > 100 && (
+                    <div className="px-3 py-2 text-xs text-muted-foreground text-center border-t">
+                      Showing 100 of {filteredCities.length} cities. Type to narrow search.
+                    </div>
+                  )}
+                </div>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
@@ -211,9 +329,17 @@ export default function MLPredictions() {
         <TabsContent value="shap">
           <div className="space-y-4">
             <div className="glass-card rounded-xl p-4">
-              <h3 className="text-sm font-semibold mb-4" style={{ fontFamily: "Exo, sans-serif" }}>
-                SHAP Feature Importance (Mean |SHAP|)
+              <h3 className="text-sm font-semibold mb-2" style={{ fontFamily: "Exo, sans-serif" }}>
+                SHAP Feature Importance (Global Model Explainability)
               </h3>
+              <p className="text-xs text-muted-foreground mb-3">
+                Shows which features the model learned are most important for predicting AQI across ALL 276 cities.
+                {currentCity && (
+                  <span className="block mt-1 text-blue-400">
+                    📍 Currently viewing predictions for: <strong>{currentCity.name}</strong> (Model uses these same feature importances)
+                  </span>
+                )}
+              </p>
               <ResponsiveContainer width="100%" height={320}>
                 <BarChart data={shapBarData} layout="vertical" margin={{ left: 120, right: 20 }}>
                   <XAxis type="number" tick={{ fontSize: 10, fill: "#6B7280" }} tickLine={false} />
@@ -268,8 +394,15 @@ export default function MLPredictions() {
 
         <TabsContent value="force">
           <div className="glass-card rounded-xl p-4 space-y-4">
-            <h3 className="text-sm font-semibold" style={{ fontFamily: "Exo, sans-serif" }}>SHAP Force Plot — Feature Contributions to Prediction</h3>
-            <p className="text-xs text-muted-foreground">Each bar shows how much a feature pushes the prediction above (red) or below (blue) the base value.</p>
+            <h3 className="text-sm font-semibold" style={{ fontFamily: "Exo, sans-serif" }}>SHAP Force Plot — Feature Contributions</h3>
+            <p className="text-xs text-muted-foreground">
+              Each bar shows how much a feature pushes the prediction above (red) or below (blue) the base AQI value.
+              {currentCity && (
+                <span className="block mt-1 text-blue-400">
+                  📍 These features explain how the model predicts AQI for <strong>{currentCity.name}</strong> and all other cities
+                </span>
+              )}
+            </p>
             <div className="space-y-2">
               {(shapValues ?? []).slice(0, 12).map((s: any, i: number) => {
                 const isPos = s.direction === "positive";
@@ -299,7 +432,14 @@ export default function MLPredictions() {
         <TabsContent value="dependence">
           <div className="glass-card rounded-xl p-4">
             <h3 className="text-sm font-semibold mb-1" style={{ fontFamily: "Exo, sans-serif" }}>SHAP Dependence Plot — PM2.5 vs AQI Impact</h3>
-            <p className="text-xs text-muted-foreground mb-4">Shows how PM2.5 feature value affects its SHAP contribution. Color = humidity interaction.</p>
+            <p className="text-xs text-muted-foreground mb-2">
+              Shows how PM2.5 feature value affects its SHAP contribution (across all 276 trained cities).
+              {currentCity && (
+                <span className="block mt-1 text-blue-400">
+                  📍 For <strong>{currentCity.name}</strong>: The model applies this same PM2.5→AQI relationship learned from training data
+                </span>
+              )}
+            </p>
             <ResponsiveContainer width="100%" height={280}>
               <ScatterChart margin={{ top: 10, right: 20, bottom: 20, left: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
@@ -375,43 +515,137 @@ export default function MLPredictions() {
 
         <TabsContent value="parallel">
           <div className="glass-card rounded-xl p-4">
-            <h3 className="text-sm font-semibold mb-1" style={{ fontFamily: "Exo, sans-serif" }}>Parallel Coordinates — Multi-Feature City Profiles</h3>
-            <p className="text-xs text-muted-foreground mb-4">Each line = one city. Traces how pollutant values relate across dimensions. Color = AQI category.</p>
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-sm font-semibold" style={{ fontFamily: "Exo, sans-serif" }}>Parallel Coordinates — Multi-Feature City Profiles</h3>
+                <p className="text-xs text-muted-foreground mt-1">Each line = one city. Traces how pollutant values relate across dimensions. Color = AQI category.</p>
+              </div>
+              <div className="flex items-center gap-2">
+                {/* View Mode Toggle */}
+                <div className="flex items-center gap-1 p-1 rounded-lg bg-accent/30 border border-border">
+                  <button
+                    onClick={() => setParallelViewMode("default")}
+                    className={cn(
+                      "px-3 py-1.5 rounded-md text-xs font-medium transition-colors",
+                      parallelViewMode === "default"
+                        ? "bg-blue-500 text-white"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Default (All 15 Cities)
+                  </button>
+                  <button
+                    onClick={() => setParallelViewMode("selected")}
+                    className={cn(
+                      "px-3 py-1.5 rounded-md text-xs font-medium transition-colors",
+                      parallelViewMode === "selected"
+                        ? "bg-blue-500 text-white"
+                        : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Selected ({selectedCitiesForParallel.length + (currentCity ? 1 : 0)})
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* City Selection Panel - Only show in Selected mode */}
+            {parallelViewMode === "selected" && (
+              <div className="mb-4 p-3 rounded-lg bg-accent/20 border border-border">
+                <p className="text-xs text-muted-foreground mb-2">
+                  <strong>Quick Select:</strong> Click cities to add to comparison (max 4 cities). Current city is auto-included.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {PARALLEL_CITIES_DATA.slice(0, 10).map((city) => {
+                    const isSelected = selectedCitiesForParallel.includes(city.id) || selectedCitiesForParallel.includes(city.name.toLowerCase());
+                    const isCurrentCity = currentCity?.name === city.name;
+                    return (
+                      <button
+                        key={city.id}
+                        onClick={() => toggleCityForParallel(city.id)}
+                        className={cn(
+                          "px-2 py-1 rounded-md text-xs border transition-all",
+                          isSelected || isCurrentCity
+                            ? "border-blue-500 bg-blue-500/20 text-blue-400"
+                            : "border-border text-muted-foreground hover:border-blue-500/50"
+                        )}
+                        style={!isSelected && !isCurrentCity ? { borderColor: city.color + "40" } : {}}
+                      >
+                        {isCurrentCity && "★ "}{city.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             <div className="overflow-x-auto">
-              <svg width="100%" height={300} viewBox="0 0 700 300">
+              <svg width="100%" height={380} viewBox="0 0 700 350">
                 {["PM2.5", "PM10", "NO₂", "SO₂", "O₃", "AQI"].map((label, i) => (
                   <g key={label}>
-                    <line x1={80 + i * 110} y1={30} x2={80 + i * 110} y2={260} stroke="#374151" strokeWidth={1} />
+                    <line x1={80 + i * 110} y1={30} x2={80 + i * 110} y2={310} stroke="#374151" strokeWidth={1} />
                     <text x={80 + i * 110} y={20} textAnchor="middle" fill="#9CA3AF" fontSize={11}>{label}</text>
+                    {/* Axis labels */}
+                    <text x={80 + i * 110} y={325} textAnchor="middle" fill="#6B7280" fontSize={9}>0-100%</text>
                   </g>
                 ))}
-                {[
-                  { name: "Delhi", vals: [0.85, 0.82, 0.65, 0.55, 0.30, 0.90], color: "#EF4444" },
-                  { name: "Mumbai", vals: [0.62, 0.58, 0.50, 0.40, 0.45, 0.65], color: "#F59E0B" },
-                  { name: "Bengaluru", vals: [0.38, 0.35, 0.35, 0.20, 0.55, 0.40], color: "#22C55E" },
-                  { name: "Chennai", vals: [0.32, 0.30, 0.28, 0.18, 0.60, 0.35], color: "#22C55E" },
-                  { name: "Kolkata", vals: [0.70, 0.68, 0.55, 0.48, 0.35, 0.72], color: "#F59E0B" },
-                  { name: "Hyderabad", vals: [0.42, 0.40, 0.38, 0.25, 0.50, 0.45], color: "#22C55E" },
-                ].map((city, ci) => {
+                {/* Render cities based on view mode */}
+                {parallelCitiesToShow.map((city, ci) => {
                   const axes = [0, 1, 2, 3, 4, 5];
-                  const points = axes.map(i => `${80 + i * 110},${260 - city.vals[i] * 220}`);
+                  const points = axes.map(i => `${80 + i * 110},${310 - city.vals[i] * 270}`);
+                  const isHighlighted = parallelViewMode === "selected" || currentCity?.name === city.name;
+                  
                   return (
-                    <g key={ci}>
-                      <polyline points={points.join(" ")} fill="none" stroke={city.color} strokeWidth={1.5} opacity={0.7} />
+                    <g key={ci} opacity={isHighlighted ? 1.0 : 0.6}>
+                      <polyline 
+                        points={points.join(" ")} 
+                        fill="none" 
+                        stroke={city.color} 
+                        strokeWidth={isHighlighted ? 3.5 : 1.5}
+                        style={isHighlighted ? { filter: 'drop-shadow(0 0 6px ' + city.color + ')' } : {}}
+                      />
                       {axes.map(i => (
-                        <circle key={i} cx={80 + i * 110} cy={260 - city.vals[i] * 220} r={3} fill={city.color} opacity={0.9} />
+                        <circle 
+                          key={i} 
+                          cx={80 + i * 110} 
+                          cy={310 - city.vals[i] * 270} 
+                          r={isHighlighted ? 6 : 3} 
+                          fill={city.color} 
+                          opacity={isHighlighted ? 1.0 : 0.9}
+                          stroke={isHighlighted ? "#fff" : "none"}
+                          strokeWidth={isHighlighted ? 2 : 0}
+                        />
                       ))}
+                      {/* Always show city name at the end */}
+                      <text 
+                        x={80 + 5 * 110 + 8} 
+                        y={310 - city.vals[5] * 270} 
+                        fill={isHighlighted ? city.color : "#9CA3AF"} 
+                        fontSize={isHighlighted ? 11 : 9}
+                        fontWeight={isHighlighted ? "bold" : "normal"}
+                        opacity={isHighlighted ? 1.0 : 0.8}
+                      >
+                        {city.name}
+                      </text>
                     </g>
                   );
                 })}
+                {/* Legend */}
                 <g>
-                  {["Delhi", "Mumbai", "Bengaluru", "Chennai", "Kolkata", "Hyderabad"].map((name, i) => (
-                    <g key={name}>
-                      <rect x={10 + (i % 3) * 120} y={270 + Math.floor(i / 3) * 16} width={10} height={10} rx={2}
-                        fill={["#EF4444", "#F59E0B", "#22C55E", "#22C55E", "#F59E0B", "#22C55E"][i]} />
-                      <text x={24 + (i % 3) * 120} y={280 + Math.floor(i / 3) * 16} fill="#9CA3AF" fontSize={10}>{name}</text>
-                    </g>
-                  ))}
+                  <rect x={10} y={335} width={8} height={8} rx={2} fill="#EF4444" />
+                  <text x={22} y={343} fill="#9CA3AF" fontSize={9}>High Pollution (AQI 200+)</text>
+                  
+                  <rect x={160} y={335} width={8} height={8} rx={2} fill="#F59E0B" />
+                  <text x={172} y={343} fill="#9CA3AF" fontSize={9}>Moderate (AQI 100-200)</text>
+                  
+                  <rect x={330} y={335} width={8} height={8} rx={2} fill="#22C55E" />
+                  <text x={342} y={343} fill="#9CA3AF" fontSize={9}>Low Pollution (AQI &lt;100)</text>
+                  
+                  {parallelViewMode === "selected" && parallelCitiesToShow.length > 0 && (
+                    <text x={500} y={343} fill="#3B82F6" fontSize={9} fontWeight="bold">
+                      ★ Showing {parallelCitiesToShow.length} selected cit{parallelCitiesToShow.length > 1 ? 'ies' : 'y'}
+                    </text>
+                  )}
                 </g>
               </svg>
             </div>

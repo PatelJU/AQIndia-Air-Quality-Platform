@@ -48,6 +48,7 @@ function PollutantGauge({ label, value, unit, color, max }: any) {
 export default function CityDetail() {
   const params = useParams<{ id: string }>();
   const cityId = params.id ?? "";
+  const [activeTab, setActiveTab] = useState("historical");
   const [days, setDays] = useState(30);
   const { t } = useTranslation();
 
@@ -221,7 +222,7 @@ export default function CityDetail() {
       </div>
 
       {/* Charts Tabs */}
-      <Tabs defaultValue="historical">
+      <Tabs defaultValue="historical" onValueChange={setActiveTab}>
         <div className="flex items-center justify-between mb-3">
           <TabsList className="bg-card">
             <TabsTrigger value="historical">{t('city.historical', 'Historical')}</TabsTrigger>
@@ -230,27 +231,35 @@ export default function CityDetail() {
             <TabsTrigger value="seasonal">{t('city.seasonal', 'Seasonal')}</TabsTrigger>
             <TabsTrigger value="monthly">{t('city.monthly', 'Monthly')}</TabsTrigger>
           </TabsList>
-          <div className="flex gap-1">
-            {[7, 30, 90, 365].map(d => (
-              <button
-                key={d}
-                onClick={() => setDays(d)}
-                className={cn(
-                  "px-2 py-1 text-xs rounded transition-colors",
-                  days === d ? "bg-blue-600/20 text-blue-400" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {d === 365 ? "1Y" : d === 90 ? "90D" : d === 30 ? "30D" : "7D"}
-              </button>
-            ))}
-          </div>
+          {/* Only show time range buttons for Historical tab */}
+          {activeTab === "historical" && (
+            <div className="flex gap-1">
+              {[7, 30, 90, 365].map(d => (
+                <button
+                  key={d}
+                  onClick={() => setDays(d)}
+                  className={cn(
+                    "px-2 py-1 text-xs rounded transition-colors",
+                    days === d ? "bg-blue-600/20 text-blue-400" : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {d === 365 ? "1Y" : d === 90 ? "90D" : d === 30 ? "30D" : "7D"}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <TabsContent value="historical">
           <div className="glass-card rounded-xl p-4">
-            <h3 className="text-sm font-semibold mb-4" style={{ fontFamily: "Exo, sans-serif" }}>
-              {t('city.historicalAQI', 'Historical AQI — Last {days} Days').replace('{days}', String(days))}
-            </h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold" style={{ fontFamily: "Exo, sans-serif" }}>
+                {t('city.historicalAQI', 'Historical AQI — Last {days} Days').replace('{days}', String(days))}
+              </h3>
+              <Badge variant="outline" className="text-xs bg-purple-500/10 border-purple-500/30 text-purple-400">
+                🔍 Real Data (Multi-Source)
+              </Badge>
+            </div>
             <ResponsiveContainer width="100%" height={280}>
               <AreaChart data={histChartData}>
                 <defs>
@@ -319,9 +328,18 @@ export default function CityDetail() {
 
         <TabsContent value="seasonal">
           <div className="glass-card rounded-xl p-4">
-            <h3 className="text-sm font-semibold mb-4" style={{ fontFamily: "Exo, sans-serif" }}>
-              {t('city.seasonalTitle', 'Seasonal Decomposition (Trend / Seasonal / Residual)')}
-            </h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold" style={{ fontFamily: "Exo, sans-serif" }}>
+                {t('city.seasonalTitle', 'Seasonal Decomposition (Trend / Seasonal / Residual)')}
+              </h3>
+              <Badge variant="outline" className="text-xs bg-blue-500/10 border-blue-500/30 text-blue-400">
+                📊 10-Year Analysis (2015-2024)
+              </Badge>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              Shows long-term patterns extracted from your complete dataset. Trend reveals direction over years, 
+              Seasonal shows yearly repeating patterns, Residual is unexplained variation.
+            </p>
             <ResponsiveContainer width="100%" height={280}>
               <LineChart data={decomp ?? []}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
@@ -340,9 +358,18 @@ export default function CityDetail() {
 
         <TabsContent value="monthly">
           <div className="glass-card rounded-xl p-4">
-            <h3 className="text-sm font-semibold mb-4" style={{ fontFamily: "Exo, sans-serif" }}>
-              {t('city.monthlyTitle', 'Monthly Average AQI')}
-            </h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold" style={{ fontFamily: "Exo, sans-serif" }}>
+                {t('city.monthlyTitle', 'Monthly Average AQI')}
+              </h3>
+              <Badge variant="outline" className="text-xs bg-green-500/10 border-green-500/30 text-green-400">
+                📅 All Historical Data
+              </Badge>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              Aggregated monthly averages from your complete dataset (2015-2024). Shows which months typically 
+              have higher/lower pollution based on real historical patterns.
+            </p>
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={monthlyData ?? []}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />

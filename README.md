@@ -2,6 +2,8 @@
 
 **A production-ready, full-stack data science dashboard for real-time air quality monitoring and ML forecasting across 108 Indian cities.**
 
+[![GitHub Repository](https://img.shields.io/badge/GitHub-View_Repository-blue?style=for-the-badge&logo=github)](https://github.com/PatelJU/AQIndia-Air-Quality-Platform.git)
+
 ---
 
 ## 📋 Project Overview
@@ -49,8 +51,8 @@ This project showcases:
 
 ```bash
 # 1. Clone the repository
-git clone <repository-url>
-cd aqindia-phase2-complete
+git clone https://github.com/PatelJU/AQIndia-Air-Quality-Platform.git
+cd AQIndia-Air-Quality-Platform
 
 # 2. Navigate to app directory
 cd aqindia

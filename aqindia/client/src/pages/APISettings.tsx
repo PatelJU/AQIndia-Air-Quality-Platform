@@ -15,6 +15,7 @@ import {
 import { toast } from "sonner";
 import FloatingGuide from "@/components/FloatingGuide";
 import { helpContent } from "@/lib/helpContent";
+import { getActiveKeys } from "@/lib/apiKeys";
 
 const API_PROVIDERS: {
   id: APIKeyEntry["provider"];
@@ -59,13 +60,13 @@ const API_PROVIDERS: {
   },
   {
     id: "cpcb",
-    name: "CPCB / OpenAQ India",
-    description: "Central Pollution Control Board India data via OpenAQ",
+    name: "OpenAQ India (Backup for WAQI)",
+    description: "BACKUP API: Automatically used when WAQI is disconnected. OpenAQ v3 provides CPCB data — free key required.",
     url: "https://openaq.org",
     docs: "https://docs.openaq.org",
-    placeholder: "Enter OpenAQ API key",
-    icon: "🇮🇳",
-    getKeyUrl: "https://openaq.org",
+    placeholder: "Enter OpenAQ v3 API key (backup when WAQI offline)",
+    icon: "🇮",
+    getKeyUrl: "https://explore.openaq.org/register",
   },
   {
     id: "gemini",
@@ -191,23 +192,40 @@ function ProviderCard({ provider }: { provider: typeof API_PROVIDERS[0] }) {
           });
         }
       } else if (provider.id === "cpcb") {
-        // Test OpenAQ key
-        console.log("[OpenAQ Test] Testing key:", newKey.trim().substring(0, 10) + "***");
-        const res = await fetch(`https://api.openaq.org/v2/cities?limit=1`, {
-          headers: { "X-API-Key": newKey.trim() },
-          signal: AbortSignal.timeout(8000)
-        });
-        console.log("[OpenAQ Test] HTTP Status:", res.status);
+        // Test OpenAQ v3 API key using direct fetch to our own server
+        console.log("[OpenAQ Test] Testing v3 key via server:", newKey.trim().substring(0, 10) + "***");
         
-        if (res.ok) {
-          isValid = true;
-          testMessage = "✅ OpenAQ India key validated successfully!";
-        } else if (res.status === 401 || res.status === 403) {
+        try {
+          // Call our server's test endpoint directly (bypasses CORS, no React hooks needed)
+          const response = await fetch("/api/trpc/apiTest.openaq", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              json: { apiKey: newKey.trim() }
+            })
+          });
+          
+          const data = await response.json();
+          console.log("[OpenAQ Test] Server response:", data);
+          
+          // tRPC wraps response in result object
+          const result = data.result?.data?.json;
+          
+          if (result && result.success) {
+            isValid = true;
+            testMessage = result.message;
+            console.log("[OpenAQ Test] Success!", result);
+          } else {
+            isValid = false;
+            testMessage = result?.message || `❌ Test failed: Unknown error`;
+            console.error("[OpenAQ Test] Failed:", result);
+          }
+        } catch (err) {
+          console.error("[OpenAQ Test] Client error:", err);
           isValid = false;
-          testMessage = `❌ OpenAQ: Invalid API key (HTTP ${res.status}). Get key at docs.openaq.org`;
-        } else {
-          isValid = false;
-          testMessage = `❌ OpenAQ: Test failed (HTTP ${res.status}). Check your key.`;
+          testMessage = `❌ Test failed: ${err instanceof Error ? err.message : 'Unknown error'}`;
         }
       }
     } catch (err) {

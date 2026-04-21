@@ -13,6 +13,24 @@ __pycache__/
 .webdev/
 .qoder/
 
+# AI prompt/context files (not needed in repo)
+*_PROMPT*.txt
+*_FOR_AI*.txt
+PROJECT_CONTEXT*.txt
+QUICK_PROMPT.txt
+MASTER_PROMPT*.txt
+
+# Implementation/development notes (keep only main docs)
+*_IMPLEMENTATION.md
+*_COMPARISON.md
+*_AUDIT.md
+*_SUMMARY.md
+*_INTEGRATION.md
+*_TESTING.md
+*_FIX*.md
+*_SOLUTION.md
+*_FEATURE.md
+
 # Node modules (if any at root)
 node_modules/
 
@@ -36,3 +54,10 @@ Thumbs.db
 # Documentation builds (if any)
 aqindia-docs/_book/
 aqindia-docs/node_modules/
+
+# Large dataset files (exceeds GitHub 100MB limit)
+jupyter-notebooks v2/datasets/*.csv
+*.pkl
+*.h5
+aqindia/server/data/kaggle_historical_original.json
+aqindia/server/data/cities_backup_full_276.json

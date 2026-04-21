@@ -38,7 +38,11 @@ export default function Forecast() {
   const { t } = useTranslation();
 
   const { data: cities } = trpc.cities.all.useQuery();
-  const { data: forecast, isLoading, error } = trpc.forecast.city.useQuery({ cityId, horizon });
+  const { data: forecast, isLoading, error } = trpc.forecast.city.useQuery({ 
+    cityId, 
+    horizon,
+    model: model as "ensemble" | "xgboost" | "random_forest" | "lstm" | "prophet"
+  });
   const { data: mlMetrics, error: metricsError } = trpc.ml.metrics.useQuery();
   const { data: festivalData } = trpc.analytics.festivalImpact.useQuery({ festival: "all" });
 

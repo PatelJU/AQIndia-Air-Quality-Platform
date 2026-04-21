@@ -1,0 +1,17 @@
+{
+  "total_cities": 276,
+  "total_records": 442985,
+  "date_range": "2015-01-01 to 2025-07-31",
+  "regions": [
+    "Northeast",
+    NaN,
+    "North",
+    "West",
+    "Other",
+    "East",
+    "South",
+    "Central"
+  ],
+  "states": 34,
+  "avg_aqi_national": 118.0
+}

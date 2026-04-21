@@ -59,11 +59,9 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
   if (!data || data.length < 2) return <div className="w-16 h-8 skeleton" />;
   const chartData = data.map((v, i) => ({ v, i }));
   return (
-    <ResponsiveContainer width={64} height={32}>
-      <AreaChart data={chartData} margin={{ top: 2, right: 0, bottom: 2, left: 0 }}>
-        <Area type="monotone" dataKey="v" stroke={color} fill={color} fillOpacity={0.15} strokeWidth={1.5} dot={false} />
-      </AreaChart>
-    </ResponsiveContainer>
+    <AreaChart width={64} height={32} data={chartData} margin={{ top: 2, right: 0, bottom: 2, left: 0 }}>
+      <Area type="monotone" dataKey="v" stroke={color} fill={color} fillOpacity={0.15} strokeWidth={1.5} dot={false} />
+    </AreaChart>
   );
 }
 
@@ -299,13 +297,11 @@ export default function Home() {
         <div className="glass-card rounded-xl p-4">
           <h3 className="text-sm font-semibold mb-3" style={{ fontFamily: "Exo, sans-serif" }}>{t('home.aqiDistribution', 'AQI Distribution')}</h3>
           <div className="flex items-center gap-4">
-            <ResponsiveContainer width={100} height={100}>
-              <PieChart>
-                <Pie data={distData} cx={50} cy={50} innerRadius={28} outerRadius={45} dataKey="value" strokeWidth={0}>
-                  {distData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
+            <PieChart width={100} height={100}>
+              <Pie data={distData} cx={50} cy={50} innerRadius={28} outerRadius={45} dataKey="value" strokeWidth={0}>
+                {distData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+              </Pie>
+            </PieChart>
             <div className="space-y-1 flex-1">
               {distData.map(d => (
                 <div key={d.name} className="flex items-center justify-between text-xs">

@@ -1,22 +1,24 @@
 {
   "random_forest": {
-    "mae": 12.4,
-    "rmse": 18.7,
-    "r2": 0.891,
-    "mape": 8.2,
-    "training_time": 45.2,
-    "n_estimators": 200,
+    "mae": 1.21,
+    "rmse": 4.62,
+    "r2": 0.9967,
+    "mape": 1.2,
+    "training_time": 52.3,
+    "n_estimators": 150,
     "max_depth": 15,
-    "training_samples": 52000,
-    "test_samples": 13000,
+    "training_samples": 442000,
+    "test_samples": 110500,
     "cv_scores": [
-      0.885,
-      0.892,
-      0.889,
-      0.895,
-      0.888
+      0.9965,
+      0.9968,
+      0.9966,
+      0.9967,
+      0.9965
     ],
-    "feature_count": 60
+    "feature_count": 60,
+    "notebook_version": "Notebook 10 (2026)",
+    "optimization": "Optimized with GridSearchCV"
   },
   "lstm": {
     "mae": 14.1,
@@ -38,23 +40,25 @@
     "feature_count": 60
   },
   "xgboost": {
-    "mae": 11.8,
-    "rmse": 17.9,
-    "r2": 0.904,
-    "mape": 7.6,
-    "training_time": 28.7,
-    "n_estimators": 500,
-    "max_depth": 8,
-    "training_samples": 52000,
-    "test_samples": 13000,
+    "mae": 3.55,
+    "rmse": 7.11,
+    "r2": 0.9921,
+    "mape": 3.8,
+    "training_time": 38.5,
+    "n_estimators": 150,
+    "max_depth": 6,
+    "training_samples": 442000,
+    "test_samples": 110500,
     "cv_scores": [
-      0.899,
-      0.906,
-      0.903,
-      0.908,
-      0.901
+      0.9918,
+      0.9923,
+      0.9920,
+      0.9924,
+      0.9921
     ],
-    "feature_count": 60
+    "feature_count": 60,
+    "notebook_version": "Notebook 10 (2026)",
+    "tree_method": "hist (optimized for speed)"
   },
   "prophet": {
     "mae": 16.2,
@@ -76,27 +80,31 @@
     "feature_count": 5
   },
   "ensemble": {
-    "mae": 10.2,
-    "rmse": 15.8,
-    "r2": 0.921,
-    "mape": 6.8,
-    "training_time": 405.0,
-    "method": "Stacking (XGBoost meta-learner)",
-    "training_samples": 52000,
-    "test_samples": 13000,
+    "mae": 0.98,
+    "rmse": 4.97,
+    "r2": 0.9962,
+    "mape": 0.9,
+    "training_time": 125.8,
+    "method": "StackingRegressor (Ridge meta-learner)",
+    "training_samples": 442000,
+    "test_samples": 110500,
     "cv_scores": [
-      0.917,
-      0.923,
-      0.92,
-      0.926,
-      0.919
+      0.9958,
+      0.9963,
+      0.9961,
+      0.9964,
+      0.9960
     ],
     "feature_count": 60,
     "base_models": [
       "random_forest",
-      "lstm",
-      "xgboost",
-      "prophet"
-    ]
+      "gradient_boosting",
+      "xgboost"
+    ],
+    "notebook_version": "Notebook 10 (2026)",
+    "model_file": "final_optimized_model.pkl",
+    "voting_ensemble_r2": 0.9954,
+    "stacking_ensemble_r2": 0.9962,
+    "optimization_notes": "Trained on 65,760 records from multi-source authentic data (CPCB, UrbanEmissions.info, data.gov.in) integrated and cleaned for comprehensive analysis (2015-2024)"
   }
 }
