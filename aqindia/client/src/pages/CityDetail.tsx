@@ -120,13 +120,8 @@ export default function CityDetail() {
             <h1 className="text-2xl font-bold" style={{ fontFamily: "Exo, sans-serif" }}>{cityData.name}</h1>
             <Badge variant="outline" style={{ borderColor: color, color }}>{category}</Badge>
             <FloatingGuide content={helpContent.cityDetail} />
-            {cityData.gemini_validated && (
-              <Badge variant="outline" className="gap-1 text-purple-400 border-purple-500/30">
-                <Zap className="w-3 h-3" />
-                {t('city.aiValidated', 'AI Validated')}
-              </Badge>
-            )}
           </div>
+          
           <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
             <MapPin className="w-3.5 h-3.5" />
             <span>{cityData.state} · {cityData.region} India</span>
@@ -139,6 +134,25 @@ export default function CityDetail() {
               </>
             )}
           </div>
+
+          {/* City Info Card - Shows AI insights or prompt to add Gemini key */}
+          {cityData.city_info && (
+            <div className="mt-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
+              <div className="flex items-start gap-2">
+                <Activity className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm text-foreground leading-relaxed">
+                    {cityData.city_info}
+                  </p>
+                  {cityData.validation_method === 'cpcb_local' && (
+                    <p className="mt-2 text-xs text-purple-400">
+                      💡 Add Gemini API key in Settings for AI-powered insights
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isFetching} className="gap-2">
           <RefreshCw className={cn("w-3.5 h-3.5", isFetching && "animate-spin")} />

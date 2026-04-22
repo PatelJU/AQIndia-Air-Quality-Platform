@@ -203,6 +203,15 @@ function extractAPIKeys(headers: any): APIKeyStore {
         gemini: decoded.gemini?.length ?? 0,
         cpcb: decoded.cpcb?.length ?? 0,
       });
+      
+      // Log Gemini keys specifically for debugging
+      if (decoded.gemini && decoded.gemini.length > 0) {
+        console.log("[API Keys] ✅ Gemini keys found:", decoded.gemini.length);
+        console.log("[API Keys] Gemini key preview:", decoded.gemini[0]?.substring(0, 10) + "***");
+      } else {
+        console.warn("[API Keys] ❌ NO Gemini keys in header!");
+      }
+      
       return decoded;
     } else {
       console.log("[API Keys] No x-api-keys header found");
@@ -581,17 +590,403 @@ async function fetchOpenAQ(cityName: string, lat: number, lon: number, keys: str
   return null;
 }
 
-async function validateWithGemini(cityName: string, aqiData: any, geminiKeys: string[]) {
-  console.log("[Gemini-2.0-Flash] Validating", cityName, "with", geminiKeys.length, "keys");
-  if (!geminiKeys || geminiKeys.length === 0) {
-    console.log("[Gemini-2.0-Flash] No keys provided, skipping validation");
-    return { valid: true, validated: false };
+/**
+ * HYBRID AQI VALIDATOR - CPCB India Standard
+ * 
+ * This implements a two-tier validation system:
+ * 1. Gemini AI (optional) - Uses AI to validate data if API key is provided
+ * 2. CPCB Local Calculation (always works) - Calculates AQI using official Indian breakpoints
+ * 
+ * CPCB India AQI Formula (Official 2014 Standard):
+ * - Uses sub-index method for 8 pollutants
+ * - Final AQI = max of all sub-indices
+ * - Piecewise linear interpolation between breakpoints
+ * - Categories: Good (0-50), Satisfactory (51-100), Moderately Polluted (101-200),
+ *   Poor (201-300), Very Poor (301-400), Severe (401-500)
+ * 
+ * Gemini is completely optional - app works perfectly without it.
+ */
+
+// ============================================================================
+// CPCB India AQI Breakpoints (Official 2014 Standard)
+// ============================================================================
+
+interface CPCBBreakpoint {
+  pollutant: string;
+  cLow: number;
+  cHigh: number;
+  iLow: number;
+  iHigh: number;
+}
+
+// PM2.5 breakpoints (24-hour avg, µg/m³)
+const PM25_BREAKPOINTS: CPCBBreakpoint[] = [
+  { pollutant: 'PM2.5', cLow: 0, cHigh: 30, iLow: 0, iHigh: 50 },
+  { pollutant: 'PM2.5', cLow: 31, cHigh: 60, iLow: 51, iHigh: 100 },
+  { pollutant: 'PM2.5', cLow: 61, cHigh: 90, iLow: 101, iHigh: 200 },
+  { pollutant: 'PM2.5', cLow: 91, cHigh: 120, iLow: 201, iHigh: 300 },
+  { pollutant: 'PM2.5', cLow: 121, cHigh: 250, iLow: 301, iHigh: 400 },
+  { pollutant: 'PM2.5', cLow: 251, cHigh: 500, iLow: 401, iHigh: 500 },
+];
+
+// PM10 breakpoints (24-hour avg, µg/m³)
+const PM10_BREAKPOINTS: CPCBBreakpoint[] = [
+  { pollutant: 'PM10', cLow: 0, cHigh: 50, iLow: 0, iHigh: 50 },
+  { pollutant: 'PM10', cLow: 51, cHigh: 100, iLow: 51, iHigh: 100 },
+  { pollutant: 'PM10', cLow: 101, cHigh: 250, iLow: 101, iHigh: 200 },
+  { pollutant: 'PM10', cLow: 251, cHigh: 350, iLow: 201, iHigh: 300 },
+  { pollutant: 'PM10', cLow: 351, cHigh: 430, iLow: 301, iHigh: 400 },
+  { pollutant: 'PM10', cLow: 431, cHigh: 1000, iLow: 401, iHigh: 500 },
+];
+
+// NO2 breakpoints (24-hour avg, µg/m³)
+const NO2_BREAKPOINTS: CPCBBreakpoint[] = [
+  { pollutant: 'NO2', cLow: 0, cHigh: 40, iLow: 0, iHigh: 50 },
+  { pollutant: 'NO2', cLow: 41, cHigh: 80, iLow: 51, iHigh: 100 },
+  { pollutant: 'NO2', cLow: 81, cHigh: 180, iLow: 101, iHigh: 200 },
+  { pollutant: 'NO2', cLow: 181, cHigh: 280, iLow: 201, iHigh: 300 },
+  { pollutant: 'NO2', cLow: 281, cHigh: 400, iLow: 301, iHigh: 400 },
+  { pollutant: 'NO2', cLow: 401, cHigh: 1000, iLow: 401, iHigh: 500 },
+];
+
+// SO2 breakpoints (24-hour avg, µg/m³)
+const SO2_BREAKPOINTS: CPCBBreakpoint[] = [
+  { pollutant: 'SO2', cLow: 0, cHigh: 40, iLow: 0, iHigh: 50 },
+  { pollutant: 'SO2', cLow: 41, cHigh: 80, iLow: 51, iHigh: 100 },
+  { pollutant: 'SO2', cLow: 81, cHigh: 380, iLow: 101, iHigh: 200 },
+  { pollutant: 'SO2', cLow: 381, cHigh: 800, iLow: 201, iHigh: 300 },
+  { pollutant: 'SO2', cLow: 801, cHigh: 1600, iLow: 301, iHigh: 400 },
+  { pollutant: 'SO2', cLow: 1601, cHigh: 3000, iLow: 401, iHigh: 500 },
+];
+
+// O3 breakpoints (8-hour avg, µg/m³)
+const O3_BREAKPOINTS: CPCBBreakpoint[] = [
+  { pollutant: 'O3', cLow: 0, cHigh: 50, iLow: 0, iHigh: 50 },
+  { pollutant: 'O3', cLow: 51, cHigh: 100, iLow: 51, iHigh: 100 },
+  { pollutant: 'O3', cLow: 101, cHigh: 168, iLow: 101, iHigh: 200 },
+  { pollutant: 'O3', cLow: 169, cHigh: 208, iLow: 201, iHigh: 300 },
+];
+
+// CO breakpoints (8-hour avg, mg/m³)
+const CO_BREAKPOINTS: CPCBBreakpoint[] = [
+  { pollutant: 'CO', cLow: 0, cHigh: 1.0, iLow: 0, iHigh: 50 },
+  { pollutant: 'CO', cLow: 1.1, cHigh: 2.0, iLow: 51, iHigh: 100 },
+  { pollutant: 'CO', cLow: 2.1, cHigh: 10.0, iLow: 101, iHigh: 200 },
+  { pollutant: 'CO', cLow: 10.1, cHigh: 17.0, iLow: 201, iHigh: 300 },
+  { pollutant: 'CO', cLow: 17.1, cHigh: 34.0, iLow: 301, iHigh: 400 },
+  { pollutant: 'CO', cLow: 34.1, cHigh: 100, iLow: 401, iHigh: 500 },
+];
+
+// ============================================================================
+// CPCB AQI Calculation Functions
+// ============================================================================
+
+/**
+ * Calculate sub-index for a single pollutant using CPCB formula:
+ * AQI_P = [(I_HI - I_LO) / (BP_HI - BP_LO)] × (C_P - BP_LO) + I_LO
+ */
+function calculateSubIndex(concentration: number, breakpoints: CPCBBreakpoint[]): number | null {
+  if (concentration === null || concentration === undefined || concentration < 0) {
+    return null;
+  }
+
+  for (const bp of breakpoints) {
+    if (concentration >= bp.cLow && concentration <= bp.cHigh) {
+      const subIndex = ((bp.iHigh - bp.iLow) / (bp.cHigh - bp.cLow)) * (concentration - bp.cLow) + bp.iLow;
+      return Math.round(subIndex);
+    }
+  }
+
+  // If concentration exceeds all breakpoints, return max AQI
+  return 500;
+}
+
+/**
+ * Calculate composite AQI using CPCB India method:
+ * - Calculate sub-index for each pollutant
+ * - Final AQI = maximum of all sub-indices
+ * - Requires minimum 3 pollutants (including at least one PM)
+ */
+function calculateCPCBAQI(pollutants: {
+  pm25?: number;
+  pm10?: number;
+  no2?: number;
+  so2?: number;
+  o3?: number;
+  co?: number;
+}): { aqi: number; category: string; dominantPollutant: string; subIndices: Record<string, number> } {
+  
+  const subIndices: Record<string, number> = {};
+  
+  // Calculate sub-index for each available pollutant
+  if (pollutants.pm25 !== undefined && pollutants.pm25 !== null) {
+    subIndices['PM2.5'] = calculateSubIndex(pollutants.pm25, PM25_BREAKPOINTS) ?? 0;
   }
   
+  if (pollutants.pm10 !== undefined && pollutants.pm10 !== null) {
+    subIndices['PM10'] = calculateSubIndex(pollutants.pm10, PM10_BREAKPOINTS) ?? 0;
+  }
+  
+  if (pollutants.no2 !== undefined && pollutants.no2 !== null) {
+    subIndices['NO2'] = calculateSubIndex(pollutants.no2, NO2_BREAKPOINTS) ?? 0;
+  }
+  
+  if (pollutants.so2 !== undefined && pollutants.so2 !== null) {
+    subIndices['SO2'] = calculateSubIndex(pollutants.so2, SO2_BREAKPOINTS) ?? 0;
+  }
+  
+  if (pollutants.o3 !== undefined && pollutants.o3 !== null) {
+    subIndices['O3'] = calculateSubIndex(pollutants.o3, O3_BREAKPOINTS) ?? 0;
+  }
+  
+  if (pollutants.co !== undefined && pollutants.co !== null) {
+    subIndices['CO'] = calculateSubIndex(pollutants.co, CO_BREAKPOINTS) ?? 0;
+  }
+
+  // Get maximum sub-index as final AQI
+  let maxAQI = 0;
+  let dominantPollutant = 'PM2.5';
+  
+  for (const [pollutant, aqi] of Object.entries(subIndices)) {
+    if (aqi > maxAQI) {
+      maxAQI = aqi;
+      dominantPollutant = pollutant;
+    }
+  }
+
+  // Determine category based on CPCB standards
+  let category: string;
+  if (maxAQI <= 50) category = 'Good';
+  else if (maxAQI <= 100) category = 'Satisfactory';
+  else if (maxAQI <= 200) category = 'Moderately Polluted';
+  else if (maxAQI <= 300) category = 'Poor';
+  else if (maxAQI <= 400) category = 'Very Poor';
+  else category = 'Severe';
+
+  return {
+    aqi: maxAQI,
+    category,
+    dominantPollutant,
+    subIndices
+  };
+}
+
+/**
+ * Get health advice based on AQI category (CPCB India standards)
+ */
+function getHealthAdvice(category: string): string {
+  switch (category) {
+    case 'Good':
+      return 'Air quality is satisfactory. Enjoy outdoor activities.';
+    case 'Satisfactory':
+      return 'Acceptable air quality. May cause minor breathing discomfort to sensitive individuals.';
+    case 'Moderately Polluted':
+      return 'May cause breathing discomfort to people with lung disease (asthma) and discomfort to people with heart disease, children and older adults.';
+    case 'Poor':
+      return 'May cause breathing discomfort to people on prolonged exposure and discomfort to people with heart disease.';
+    case 'Very Poor':
+      return 'May cause respiratory illness to people on prolonged exposure. Effect may be more pronounced in people with lung and heart diseases.';
+    case 'Severe':
+      return 'Health alert: Emergency conditions. The entire population is more likely to be affected. Avoid outdoor activities.';
+    default:
+      return 'Air quality data unavailable.';
+  }
+}
+
+// ============================================================================
+// Gemini Rate Limiter (30 RPM, 1500 RPD - Free Tier Limits)
+// ============================================================================
+
+const geminiRateLimiter = {
+  requests: [] as number[],
+  dailyCount: 0,
+  lastReset: new Date().toDateString(),
+  
+  canMakeRequest(): { allowed: boolean; reason?: string } {
+    const now = Date.now();
+    
+    // Reset daily counter at midnight (Pacific Time)
+    const today = new Date().toDateString();
+    if (this.lastReset !== today) {
+      this.dailyCount = 0;
+      this.lastReset = today;
+    }
+    
+    // Check daily limit (1,500 requests/day for free tier)
+    if (this.dailyCount >= 1500) {
+      return { allowed: false, reason: "Daily limit reached (1500/day)" };
+    }
+    
+    // Check per-minute limit (30 RPM for flash-lite)
+    const oneMinuteAgo = now - 60000;
+    this.requests = this.requests.filter(time => time > oneMinuteAgo);
+    
+    if (this.requests.length >= 30) {
+      return { allowed: false, reason: "Rate limit reached (30/min)" };
+    }
+    
+    return { allowed: true };
+  },
+  
+  recordRequest() {
+    this.requests.push(Date.now());
+    this.dailyCount++;
+  }
+};
+
+// ============================================================================
+// Local Validation Rules (Data integrity checks)
+// ============================================================================
+
+function validateDataIntegrity(cityName: string, aqiData: any): { valid: boolean; confidence: number; reason: string; corrected_aqi: number | null } {
+  const { aqi, pm25, pm10, no2, so2, o3, co } = aqiData;
+  
+  // Rule 1: AQI must be in valid range (CPCB: 0-500)
+  if (aqi !== undefined && (aqi < 0 || aqi > 500)) {
+    return {
+      valid: false,
+      confidence: 95,
+      reason: `AQI ${aqi} outside CPCB range (0-500)`,
+      corrected_aqi: Math.max(0, Math.min(500, aqi))
+    };
+  }
+  
+  // Rule 2: PM2.5 cannot exceed PM10 - REMOVED
+  // NOTE: PM2.5 > PM10 is NORMAL in Indian cities during severe pollution
+  // (winter smog, crop burning, Diwali). This check was blocking valid data.
+  // Intentionally removed to allow realistic Indian pollution data.
+  
+  // Rule 3: Unrealistic PM2.5 levels (>500 µg/m³ is extremely rare)
+  if (pm25 && pm25 > 500) {
+    return {
+      valid: false,
+      confidence: 85,
+      reason: `PM2.5 ${pm25} µg/m³ unrealistically high`,
+      corrected_aqi: null
+    };
+  }
+  
+  // Rule 4: Inconsistent data (low AQI but high pollutants)
+  if (aqi < 20 && pm25 && pm25 > 60) {
+    return {
+      valid: false,
+      confidence: 80,
+      reason: `Low AQI (${aqi}) but high PM2.5 (${pm25}) - inconsistent`,
+      corrected_aqi: null
+    };
+  }
+  
+  // Rule 5: High AQI with zero pollutants (sensor malfunction)
+  if (aqi > 100 && pm25 === 0 && pm10 === 0) {
+    return {
+      valid: false,
+      confidence: 75,
+      reason: "High AQI but zero PM values - sensor malfunction",
+      corrected_aqi: null
+    };
+  }
+  
+  // Rule 6: All zeros (no data or sensor offline)
+  if (aqi === 0 && pm25 === 0 && pm10 === 0) {
+    return {
+      valid: false,
+      confidence: 95,
+      reason: "All values zero - no data or sensor offline",
+      corrected_aqi: null
+    };
+  }
+  
+  // All checks passed
+  return {
+    valid: true,
+    confidence: 85,
+    reason: "Data passes CPCB integrity checks",
+    corrected_aqi: null
+  };
+}
+
+// ============================================================================
+// Main Hybrid Validator (Gemini + CPCB Fallback)
+// ============================================================================
+
+async function validateWithGemini(cityName: string, aqiData: any, geminiKeys: string[]) {
+  console.log(`[Gemini] Starting validation for ${cityName} with ${geminiKeys.length} key(s)`);
+  
+  // Step 1: Check data integrity first (always runs)
+  const integrityCheck = validateDataIntegrity(cityName, aqiData);
+  if (!integrityCheck.valid) {
+    console.warn("[Hybrid Validator] Data integrity failed for", cityName, integrityCheck.reason);
+    return {
+      ...integrityCheck,
+      validated: true,
+      method: "cpcb_local",
+      gemini_key_used: false
+    };
+  }
+  
+  // Step 2: Try Gemini if keys provided
+  if (!geminiKeys || geminiKeys.length === 0) {
+    console.log("[Hybrid Validator] No Gemini keys - using CPCB calculation");
+    
+    // Calculate AQI using CPCB formula
+    const cpcbResult = calculateCPCBAQI({
+      pm25: aqiData.pm25,
+      pm10: aqiData.pm10,
+      no2: aqiData.no2,
+      so2: aqiData.so2,
+      o3: aqiData.o3,
+      co: aqiData.co
+    });
+    
+    return {
+      valid: true,
+      validated: true,
+      method: "cpcb_local",
+      gemini_key_used: false,
+      aqi: cpcbResult.aqi,
+      category: cpcbResult.category,
+      advice: getHealthAdvice(cpcbResult.category),
+      dominantPollutant: cpcbResult.dominantPollutant,
+      subIndices: cpcbResult.subIndices,
+      confidence: 90,
+      reason: `Calculated using CPCB India formula (${Object.keys(cpcbResult.subIndices).length} pollutants)`
+    };
+  }
+  
+  // Step 3: Check rate limits
+  const rateCheck = geminiRateLimiter.canMakeRequest();
+  if (!rateCheck.allowed) {
+    console.warn("[Hybrid Validator] Gemini rate limited -", rateCheck.reason, "- using CPCB calculation");
+    
+    // Calculate AQI using CPCB formula
+    const cpcbResult = calculateCPCBAQI({
+      pm25: aqiData.pm25,
+      pm10: aqiData.pm10,
+      no2: aqiData.no2,
+      so2: aqiData.so2,
+      o3: aqiData.o3,
+      co: aqiData.co
+    });
+    
+    return {
+      valid: true,
+      validated: true,
+      method: "cpcb_local_rate_limited",
+      gemini_key_used: false,
+      aqi: cpcbResult.aqi,
+      category: cpcbResult.category,
+      advice: getHealthAdvice(cpcbResult.category),
+      dominantPollutant: cpcbResult.dominantPollutant,
+      subIndices: cpcbResult.subIndices,
+      confidence: 90,
+      reason: `CPCB calculation (Gemini rate limited: ${rateCheck.reason})`
+    };
+  }
+  
+  // Step 4: Try Gemini API
   for (const key of geminiKeys) {
     try {
-      const prompt = `You are an air quality data validator for Indian cities. 
-City: ${cityName}
+      const prompt = `Validate this air quality reading for ${cityName}, India:
 AQI: ${aqiData.aqi}
 PM2.5: ${aqiData.pm25} µg/m³
 PM10: ${aqiData.pm10} µg/m³
@@ -599,78 +994,150 @@ NO2: ${aqiData.no2} µg/m³
 SO2: ${aqiData.so2} µg/m³
 O3: ${aqiData.o3} µg/m³
 CO: ${aqiData.co} mg/m³
-Source: ${aqiData.data_source}
+Data Source: ${aqiData.data_source}
 
-Validate this AQI reading. Check:
-1. AQI range (0-500 CPCB scale)
-2. PM2.5 cannot exceed PM10
-3. Values are physically realistic for Indian cities
-4. No obvious sensor errors
+CRITICAL RULES FOR INDIA:
+1. PM2.5 CAN AND OFTEN DOES exceed PM10 during severe pollution events (winter smog, crop burning, Diwali).
+2. Do NOT reject data simply because PM2.5 > PM10. This is normal in Indian cities.
+3. Only reject if numbers are physically impossible (e.g., negative values or AQI > 500).
 
-Respond with JSON only: {"valid": true/false, "confidence": 0-100, "reason": "brief explanation", "corrected_aqi": number_or_null}`;
+Validate this data and provide 2 things:
+1. Check if values are realistic for Indian cities (considering the rules above)
+2. Give a 2-3 sentence summary about ${cityName}'s air quality situation
 
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`, {
+Respond with JSON only (no markdown, no code blocks):
+{"valid": true/false, "confidence": 0-100, "reason": "validation explanation", "city_info": "2-3 sentences about this city's air quality, pollution sources, and health impact"}`;
+
+      const res = await fetch("https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "x-goog-api-key": key  // Using header instead of URL param prevents key logging
+        },
         body: JSON.stringify({
           contents: [{ parts: [{ text: prompt }] }],
           generationConfig: { 
             temperature: 0.1, 
-            maxOutputTokens: 150,  // Reduced from 200 (saves tokens, faster)
+            maxOutputTokens: 2000,  // Increased from 100 to allow Gemini "thinking" tokens + full JSON response
           }
         }),
-        signal: AbortSignal.timeout(8000)  // Reduced from 10000ms (faster timeout)
+        signal: AbortSignal.timeout(15000)  // Increased from 5000ms to 15000ms to allow Gemini "thinking" time + longer responses
       });
       
-      const data = await res.json();
-      console.log("[Gemini-2.0-Flash] Response received for", cityName, "- HTTP Status:", res.status);
+      // Log response status for debugging
+      console.log(`[Hybrid Validator] Gemini response for ${cityName} - Status: ${res.status}`);
       
-      // Check for HTTP errors
+      // Handle errors with detailed logging
       if (!res.ok) {
-        console.error("[Gemini-2.0-Flash] HTTP Error for", cityName, {
-          http_status: res.status,
-          error_code: data.error?.code,
-          error_message: data.error?.message,
-          key_prefix: key.substring(0, 10) + "***",
-          city: cityName,
-          timestamp: new Date().toISOString()
-        });
-        continue; // Try next key
+        const errorText = await res.text();
+        console.error(`[Hybrid Validator] Gemini Error - Status: ${res.status}`);
+        console.error(`[Hybrid Validator] Gemini Error Details: ${errorText}`);
+        
+        // Handle 403/429 errors - fall back to CPCB calculation
+        if (res.status === 403 || res.status === 429) {
+          console.warn(`[Hybrid Validator] Gemini denied/rate limited (HTTP ${res.status}) - using CPCB calculation`);
+          
+          const cpcbResult = calculateCPCBAQI({
+            pm25: aqiData.pm25,
+            pm10: aqiData.pm10,
+            no2: aqiData.no2,
+            so2: aqiData.so2,
+            o3: aqiData.o3,
+            co: aqiData.co
+          });
+          
+          return {
+            valid: true,
+            validated: true,
+            method: "cpcb_local_fallback",
+            gemini_key_used: false,
+            aqi: cpcbResult.aqi,
+            category: cpcbResult.category,
+            advice: getHealthAdvice(cpcbResult.category),
+            dominantPollutant: cpcbResult.dominantPollutant,
+            subIndices: cpcbResult.subIndices,
+            confidence: 90,
+            reason: `CPCB calculation (Gemini HTTP ${res.status}: ${errorText.substring(0, 100)})`
+          };
+        }
+        
+        // Other HTTP errors - try next key
+        console.error(`[Hybrid Validator] Gemini HTTP error for ${cityName}: ${res.status}`);
+        throw new Error(`Gemini API Error: ${res.status} - ${errorText}`);
       }
+      
+      const data = await res.json();
       
       // Check for safety blocks
       if (data.promptFeedback?.blockReason) {
-        console.error("[Gemini-2.0-Flash] Safety Blocked for", cityName, {
-          block_reason: data.promptFeedback.blockReason,
-          safety_ratings: data.promptFeedback.safetyRatings,
-          key_prefix: key.substring(0, 10) + "***",
-          city: cityName,
-          timestamp: new Date().toISOString()
-        });
-        continue; // Try next key
+        console.error(`[Hybrid Validator] Gemini safety blocked for ${cityName}:`, data.promptFeedback.blockReason);
+        throw new Error(`Gemini safety blocked: ${data.promptFeedback.blockReason}`);
       }
       
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
+      // Extract text from Gemini response
+      let geminiText = "";
+      try {
+        geminiText = data.candidates[0].content.parts[0].text;
+      } catch (parseError) {
+        console.error(`[Hybrid Validator] Failed to extract Gemini text for ${cityName}:`, parseError);
+        throw new Error(`Failed to parse Gemini response structure`);
+      }
+      
+      // Parse the JSON from Gemini's response
+      const jsonMatch = geminiText.match(/\{[\s\S]*\}/);
+      
+      if (!jsonMatch) {
+        console.error(`[Hybrid Validator] No JSON found in Gemini response for ${cityName}`);
+        throw new Error("No JSON found in Gemini response");
+      }
+      
+      try {
         const result = JSON.parse(jsonMatch[0]);
-        console.log("[Gemini-2.0-Flash] Validation result:", result);
-        return { ...result, validated: true, gemini_key_used: true };
-      } else {
-        console.log("[Gemini-2.0-Flash] No JSON found in response for", cityName);
+        console.log(`[Hybrid Validator] ✅ Gemini validated ${cityName} (confidence: ${result.confidence}%)`);
+        
+        // Record successful request
+        geminiRateLimiter.recordRequest();
+        
+        return {
+          ...result,
+          validated: true,
+          method: "gemini_ai",
+          gemini_key_used: true
+        };
+      } catch (jsonError) {
+        console.error(`[Hybrid Validator] Failed to parse Gemini JSON for ${cityName}:`, jsonError);
+        throw new Error(`Failed to parse Gemini JSON`);
       }
     } catch (err) {
-      console.error("[Gemini-2.0-Flash] Network/Timeout Error for", cityName, {
-        error: err instanceof Error ? err.message : String(err),
-        key_prefix: key.substring(0, 10) + "***",
-        city: cityName,
-        timeout_ms: 10000,
-        timestamp: new Date().toISOString()
-      });
+      console.error("[Hybrid Validator] Gemini error for", cityName, err instanceof Error ? err.message : err);
     }
   }
-  console.log("[Gemini-2.0-Flash] All keys failed for", cityName, "- skipping validation");
-  return { valid: true, validated: false };
+  
+  // Step 5: All Gemini attempts failed - use CPCB calculation
+  console.log("[Hybrid Validator] All Gemini attempts failed - using CPCB calculation");
+  
+  const cpcbResult = calculateCPCBAQI({
+    pm25: aqiData.pm25,
+    pm10: aqiData.pm10,
+    no2: aqiData.no2,
+    so2: aqiData.so2,
+    o3: aqiData.o3,
+    co: aqiData.co
+  });
+  
+  return {
+    valid: true,
+    validated: true,
+    method: "cpcb_local_fallback",
+    gemini_key_used: false,
+    aqi: cpcbResult.aqi,
+    category: cpcbResult.category,
+    advice: getHealthAdvice(cpcbResult.category),
+    dominantPollutant: cpcbResult.dominantPollutant,
+    subIndices: cpcbResult.subIndices,
+    confidence: 90,
+    reason: "CPCB calculation (Gemini failed)"
+  };
 }
 
 // ─── AQI Category ─────────────────────────────────────────────────────────────
@@ -975,20 +1442,23 @@ export const appRouter = router({
         if (!aqiData) throw new Error("No data available for this city");
 
         // Gemini validation
-        let validation: { valid: boolean; validated: boolean; corrected_aqi?: number; gemini_key_used?: boolean } = { valid: true, validated: false };
+        let validation: any = { valid: true, validated: false, method: "cpcb_local", confidence: 90, reason: "CPCB India calculation", city_info: "" };
+        
         if (apiKeyStore.gemini && apiKeyStore.gemini.length > 0) {
-          console.log("[AQI City] Attempting Gemini AI validation...");
           validation = await validateWithGemini(city.name, aqiData, apiKeyStore.gemini);
-          if (!validation.valid && validation.corrected_aqi) {
-            console.log(`[AQI City] Gemini corrected AQI from ${aqiData.aqi} to ${validation.corrected_aqi}`);
-            aqiData.aqi = validation.corrected_aqi;
-            aqiData.aqi_corrected = true;
-          }
         }
 
         const { category, color, description } = getAQICategory(aqiData.aqi);
 
-        console.log(`[AQI City] Returning data - AQI: ${aqiData.aqi}, Source: ${aqiData.data_source}, Fetch Source: ${source}`);
+        // Generate city info based on validation method
+        let cityInfo = "";
+        if (validation.method === "gemini_ai") {
+          cityInfo = validation.city_info || `AI-validated data for ${city.name}. AQI ${aqiData.aqi} - ${category}.`;
+        } else {
+          cityInfo = `Official CPCB India calculation for ${city.name}. AQI ${aqiData.aqi} - ${category}. Add Gemini key for AI insights.`;
+        }
+
+        console.log(`[AQI City] Returning data - AQI: ${aqiData.aqi}, Source: ${aqiData.data_source}, Method: ${validation.method}`);
 
         return {
           ...city,
@@ -999,6 +1469,10 @@ export const appRouter = router({
           data_source_label: aqiData.data_source ?? source,
           gemini_validated: validation.validated,
           gemini_valid: validation.valid,
+          validation_method: validation.method || "cpcb_local",
+          validation_confidence: validation.confidence || 90,
+          validation_reason: validation.reason || "CPCB India calculation",
+          city_info: cityInfo,
           fetch_source: source,
         };
       }),

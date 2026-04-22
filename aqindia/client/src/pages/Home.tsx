@@ -206,7 +206,7 @@ export default function Home() {
               {t('home.title', 'Air Quality Overview')}
             </h1>
             <p className="text-sm text-muted-foreground mt-0.5">
-              {t('home.subtitle', 'Real-time AQI monitoring across {count} Indian cities').replace('{count}', String(aqiData?.source_info?.total_cities ?? "—"))}
+              {t('home.subtitle', 'Live air quality data from {count} Indian cities').replace('{count}', String(aqiData?.source_info?.total_cities ?? "—"))}
             </p>
             {/* Data Source Badge */}
             {aqiData?.source_info && (

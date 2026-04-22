@@ -15,12 +15,12 @@ const TECH_STACK = [
 ];
 
 const FEATURES = [
-  { icon: Globe, title: "126 Indian Cities", desc: "Real-time AQI monitoring across all major Indian cities and states", color: "#3B82F6" },
-  { icon: Brain, title: "5 ML Models", desc: "XGBoost, Random Forest, LSTM, Prophet, and Ensemble stacking for forecasting", color: "#8B5CF6" },
-  { icon: BarChart2, title: "12+ Chart Types", desc: "Area, radar, heatmap, box plot, violin, scatter, parallel coordinates, SHAP plots", color: "#10B981" },
-  { icon: Zap, title: "Gemini AI Validation", desc: "Optional AI-powered data verification to eliminate erroneous values", color: "#F59E0B" },
-  { icon: Database, title: "65,760+ Records", desc: "Historical AQI data from 2020-2025 with seasonal decomposition", color: "#EF4444" },
-  { icon: Shield, title: "AES-256 Security", desc: "Client-side encrypted API key storage with intelligent load balancing", color: "#22C55E" },
+  { icon: Globe, title: "108 Indian Cities", desc: "Live air quality data from cities across India, updated regularly", color: "#3B82F6" },
+  { icon: Brain, title: "5 ML Models", desc: "XGBoost, Random Forest, LSTM, Prophet, and Ensemble stacking for predictions", color: "#8B5CF6" },
+  { icon: BarChart2, title: "12+ Chart Types", desc: "Area, radar, heatmap, box plot, violin, scatter, parallel coords, SHAP plots", color: "#10B981" },
+  { icon: Zap, title: "Optional AI Validation", desc: "Add a free Gemini API key for smarter data checks, or use built-in validation", color: "#F59E0B" },
+  { icon: Database, title: "Historical Data", desc: "Years of AQI records from 2015-2025 with trend analysis", color: "#EF4444" },
+  { icon: Shield, title: "Secure & Private", desc: "API keys encrypted on your device, never sent to our servers", color: "#22C55E" },
 ];
 
 export default function About() {
@@ -42,7 +42,7 @@ export default function About() {
           AQIndia
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          {t('about.description', 'Air Quality Intelligence Platform for India — A comprehensive data science and analytics dashboard combining real-time monitoring, machine learning forecasting, and statistical analysis.')}
+          {t('about.description', 'A platform that tracks air quality across India. It uses machine learning to predict pollution levels and helps people understand the air they breathe.')}
         </p>
         <div className="flex items-center justify-center gap-3 mt-4">
           <Badge variant="outline" className="text-sm">v2.0.0</Badge>

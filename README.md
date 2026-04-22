@@ -257,14 +257,18 @@ All API keys are stored **client-side** using **AES-256 encryption**:
 4. Keys never sent to backend unencrypted
 5. Encryption key is derived from browser fingerprint (unique per device)
 
-### Gemini AI Validation
+### Gemini AI Validation (Optional)
 
-When a Gemini API key is provided:
+When a Gemini API key is provided, the platform uses AI-powered data validation:
 
-1. All incoming AQI values are sent to Gemini for validation
-2. Gemini checks for anomalies (e.g., AQI > 500 without reason)
-3. If invalid, value is flagged or corrected before display
-4. Validation happens server-side for security
+1. **Hybrid Validation System** — Gemini AI validates AQI data with CPCB India fallback
+2. **Intelligent Analysis** — AI checks for realistic values considering Indian pollution patterns
+3. **City-Specific Insights** — Generates 2-3 sentence summaries about each city's air quality
+4. **Automatic Fallback** — If Gemini is unavailable, CPCB India AQI calculation is used
+5. **Rate Limiting** — 30 requests/minute, 1,500 requests/day (free tier limits)
+6. **Server-Side Processing** — All AI validation happens on backend for security
+
+**Note:** Gemini is completely optional. The platform works perfectly without it using CPCB India standards.
 
 ---
 
