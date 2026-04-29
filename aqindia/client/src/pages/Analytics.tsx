@@ -71,18 +71,18 @@ export default function Analytics() {
     date: h.date,
   })).filter((d: any) => d.pm25 && d.aqi);
 
-  // Festival comparison
+  // Festival comparison - FIX: Use correct field names from JSON (before_avg, during_avg, after_avg)
   const diwaliData = (festivalData ?? []).filter((f: any) => f.festival === "diwali").slice(0, 20);
   const holiData = (festivalData ?? []).filter((f: any) => f.festival === "holi").slice(0, 20);
 
   const festivalChartData = diwaliData.map((d: any, i: number) => ({
-    city: d.city_name?.slice(0, 8),
-    diwali_before: d.before_aqi,
-    diwali_during: d.during_aqi,
-    diwali_after: d.after_aqi,
-    holi_before: holiData[i]?.before_aqi,
-    holi_during: holiData[i]?.during_aqi,
-  })).slice(0, 10);
+    city: d.city_name?.slice(0, 8) || d.city_id?.slice(0, 8),
+    diwali_before: d.before_avg || d.before_aqi || 0,
+    diwali_during: d.during_avg || d.during_aqi || 0,
+    diwali_after: d.after_avg || d.after_aqi || 0,
+    holi_before: holiData[i]?.before_avg || holiData[i]?.before_aqi || 0,
+    holi_during: holiData[i]?.during_avg || holiData[i]?.during_aqi || 0,
+  })).filter(d => d.diwali_before > 0 || d.diwali_during > 0).slice(0, 10);
 
   return (
     <div className="p-4 md:p-6 space-y-6">
@@ -366,13 +366,15 @@ export default function Analytics() {
                     </thead>
                     <tbody className="divide-y divide-border/50">
                       {(festivalData ?? []).slice(0, 15).map((row: any, i: number) => {
-                        const pct = ((row.during_aqi - row.before_aqi) / row.before_aqi * 100);
+                        const beforeAQI = row.before_avg || row.before_aqi || 0;
+                        const duringAQI = row.during_avg || row.during_aqi || 0;
+                        const pct = beforeAQI > 0 ? ((duringAQI - beforeAQI) / beforeAQI * 100) : 0;
                         return (
                           <tr key={i} className="hover:bg-accent/20">
-                            <td className="py-2 px-3">{row.city_name}</td>
+                            <td className="py-2 px-3">{row.city_name || row.city_id}</td>
                             <td className="py-2 px-3 capitalize">{row.festival}</td>
-                            <td className="py-2 px-3 text-right font-mono-data">{row.before_aqi}</td>
-                            <td className="py-2 px-3 text-right font-mono-data">{row.during_aqi}</td>
+                            <td className="py-2 px-3 text-right font-mono-data">{beforeAQI}</td>
+                            <td className="py-2 px-3 text-right font-mono-data">{duringAQI}</td>
                             <td className="py-2 px-3 text-right font-mono-data" style={{ color: pct > 0 ? "#EF4444" : "#22C55E" }}>
                               {pct > 0 ? "+" : ""}{pct.toFixed(1)}%
                             </td>

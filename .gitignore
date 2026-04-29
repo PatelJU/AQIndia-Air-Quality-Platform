@@ -1,63 +1,123 @@
 # Root project .gitignore
+# ONLY push: aqindia/, aqindia-docs/, jupyter-notebooks v2/, scripts/, README.md
 
-# Python translation/automation scripts (root level)
-auto_translate_all.py
-complete_translations.py
-translate_all.py
+# ============================================
+# IGNORE EVERYTHING BY DEFAULT
+# ============================================
+/*
+!/
+
+# ============================================
+# ALLOW ONLY THESE FOLDERS/FILES
+# ============================================
+
+# Allow main application
+!aqindia/
+
+# Allow documentation
+!aqindia-docs/
+
+# Allow ML notebooks
+!jupyter-notebooks v2/
+
+# Allow scripts
+!scripts/
+
+# Allow root README
+!README.md
+
+# ============================================
+# NOW IGNORE SPECIFIC THINGS INSIDE ALLOWED FOLDERS
+# ============================================
+
+# Global ignores (apply everywhere)
 *.pyc
 __pycache__/
-
-# AI Assistant folders
+*.pyo
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.log
+npm-debug.log*
+pnpm-debug.log*
+*.bak
+*.backup
+*.old
+temp_*.md
+temp_*.mmd
+temp_*.svg
+*.drawio
+*.drawio.svg
+dist/
+build/
+*.min.js
+*.min.css
+coverage/
+.nyc_output/
+*.tsbuildinfo
+.ipynb_checkpoints/
+venv/
+env/
+.env/
 .manus/
 .manus-logs/
 .webdev/
 .qoder/
-
-# AI prompt/context files (not needed in repo)
+.agents/
+.augment/
 *_PROMPT*.txt
 *_FOR_AI*.txt
 PROJECT_CONTEXT*.txt
 QUICK_PROMPT.txt
 MASTER_PROMPT*.txt
+*.skill.md
+SKILLS_COMMANDS.md
+skills-lock.json
+generate-report*.js
+generate-report*.py
+"Project report For college/"
+"Backup Project report For college/"
+report-figures/
 
-# Implementation/development notes (keep only main docs)
-*_IMPLEMENTATION.md
-*_COMPARISON.md
-*_AUDIT.md
-*_SUMMARY.md
-*_INTEGRATION.md
-*_TESTING.md
-*_FIX*.md
-*_SOLUTION.md
-*_FEATURE.md
+# --- INSIDE aqindia/ ---
+# Node modules (users run pnpm install)
+aqindia/node_modules/
 
-# Node modules (if any at root)
-node_modules/
+# Build outputs
+aqindia/dist/
 
-# OS files
-.DS_Store
-Thumbs.db
+# Environment files (security - NEVER push)
+aqindia/.env
+aqindia/.env.local
+aqindia/.env.production
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
-*.log
-
-# Backup files
-*.bak
-*.backup
-
-# Documentation builds (if any)
-aqindia-docs/_book/
-aqindia-docs/node_modules/
-
-# Large dataset files (exceeds GitHub 100MB limit)
-jupyter-notebooks v2/datasets/*.csv
-*.pkl
-*.h5
+# Large dataset files (>50MB - GitHub limit is 100MB)
+# These are documented in README.md for reproducibility
+aqindia/server/data/historical.json
 aqindia/server/data/kaggle_historical_original.json
+
+# Backup files (not needed in production)
 aqindia/server/data/cities_backup_full_276.json
+aqindia/server/data/kaggle_historical_original.json.backup
+
+# Pickle files (ML models - document in README instead)
+# *.pkl
+
+# --- INSIDE jupyter-notebooks v2/ ---
+# Large CSV datasets (>50MB)
+jupyter-notebooks v2/datasets/*.csv
+
+# Trained model files
+jupyter-notebooks v2/models/*.pkl
+jupyter-notebooks v2/models/*.h5
+
+# Large notebook outputs (keep notebooks, remove huge outputs)
+# Notebooks are kept but users can re-run them
+
+# --- INSIDE aqindia-docs/ ---
+# No exclusions needed - all docs are important

@@ -117,7 +117,7 @@ export default function Forecast() {
         </div>
       )}
 
-      {/* Festival Warning */}
+        {/* Festival Warning */}
       {upcomingFestival && (
         <motion.div
           initial={{ opacity: 0, y: -8 }}
@@ -127,7 +127,7 @@ export default function Forecast() {
           <AlertTriangle className="w-4 h-4 text-orange-400 flex-shrink-0" />
           <p className="text-sm text-orange-300">
             <strong>{upcomingFestival.festival}</strong> approaching in {Math.round((new Date(upcomingFestival.date).getTime() - Date.now()) / 86400000)} days —
-            expect AQI spike of +{upcomingFestival.aqi_increase ?? 80}% during festival period
+            expect AQI spike of +{upcomingFestival.aqi_increase ?? upcomingFestival.increase_pct ?? 80}% during festival period
           </p>
         </motion.div>
       )}

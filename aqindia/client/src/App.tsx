@@ -17,6 +17,7 @@ import Comparison from "./pages/Comparison";
 import Analytics from "./pages/Analytics";
 import MLPredictions from "./pages/MLPredictions";
 import DataScienceDashboard from "./pages/DataScienceDashboard";
+import PowerBIAdvancedDashboard from "./pages/PowerBIAdvancedDashboard";
 import HealthAdvisory from "./pages/HealthAdvisory";
 import APISettings from "./pages/APISettings";
 import Reports from "./pages/Reports";
@@ -38,6 +39,7 @@ function Router() {
         <Route path="/analytics" component={Analytics} />
         <Route path="/ml-predictions" component={MLPredictions} />
         <Route path="/data-science" component={DataScienceDashboard} />
+        <Route path="/powerbi-dashboard" component={PowerBIAdvancedDashboard} />
         <Route path="/health" component={HealthAdvisory} />
         <Route path="/settings" component={APISettings} />
         <Route path="/reports" component={Reports} />

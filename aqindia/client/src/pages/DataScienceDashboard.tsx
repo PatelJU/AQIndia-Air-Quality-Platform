@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Database, Cpu, GitBranch, CheckCircle2, AlertCircle, Clock } from "lucide-react";
+import { Database, Cpu, GitBranch, CheckCircle2, AlertCircle, Clock, BarChart3 } from "lucide-react";
 import { useTranslation } from "@/i18n-wrappers";
+import { useLocation } from "wouter";
 import {
   BarChart, Bar, LineChart, Line, AreaChart, Area, XAxis, YAxis, Tooltip,
   ResponsiveContainer, CartesianGrid, Legend, Cell, ReferenceLine
@@ -26,6 +28,7 @@ const PIPELINE_STEPS = [
 
 export default function DataScienceDashboard() {
   const { t } = useTranslation();
+  const [, navigate] = useLocation();
   const { data: metrics, error: metricsError } = trpc.ml.metrics.useQuery();
   const { data: modelComparison, error: compError } = trpc.ml.modelComparison.useQuery();
   const { data: shapValues, error: shapError } = trpc.ml.shap.useQuery({ model: "ensemble" });
@@ -88,6 +91,15 @@ export default function DataScienceDashboard() {
           </div>
           <FloatingGuide content={helpContent.dataScience} />
         </div>
+        
+        {/* Button to navigate to Power BI Dashboard */}
+        <Button
+          onClick={() => navigate("/powerbi-dashboard")}
+          className="gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+        >
+          <BarChart3 className="w-4 h-4" />
+          Open Power BI Dashboard
+        </Button>
       </div>
 
       {/* Dataset Stats */}

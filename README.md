@@ -8,18 +8,20 @@
 
 ## 📋 Project Overview
 
-AQIndia is a comprehensive air quality analytics platform built as a final-year data science internship project. It combines real-time multi-source data ingestion, advanced machine learning forecasting, statistical trend analysis, and interactive Power BI-style visualizations into a single, cohesive platform.
+AQIndia is a comprehensive air quality analytics platform built as a final-year data science internship project. It combines real-time multi-source data ingestion, advanced machine learning forecasting, statistical trend analysis, interactive Power BI-style visualizations, and multi-language support into a single, cohesive platform.
 
 ### Key Statistics
 
 - **108 Indian cities** monitored with real-time AQI data
 - **236,736 historical records** (2020–2025) for trend analysis
 - **5 ML models** (XGBoost, Random Forest, LSTM, Prophet, Ensemble stacking)
+- **19 pages** with advanced analytics and interactive dashboards
 - **12+ chart types** (violin plots, heatmap calendars, SHAP visualizations, radar charts, etc.)
 - **17 passing tests** with 0 TypeScript errors
 - **Live data** from Open-Meteo API (free, no key required)
 - **Gemini AI validation** layer for data accuracy
 - **AES-256 encryption** for client-side API key storage
+- **10 Indian languages** supported (Hindi, Bengali, Gujarati, Marathi, Tamil, Telugu, etc.)
 
 ---
 
@@ -166,6 +168,64 @@ aqindia/
 
 ---
 
+## 🌐 Multi-Language Support
+
+The platform supports **10 Indian languages** with full internationalization (i18n):
+
+- **English** (en)
+- **Hindi** (hi) - हिंदी
+- **Bengali** (bn) - বাংলা
+- **Gujarati** (gu) - ગુજરાતી
+- **Marathi** (mr) - मराठी
+- **Tamil** (ta) - தமிழ்
+- **Telugu** (te) - తెలుగు
+- **Kannada** (kn) - ಕನ್ನಡ
+- **Malayalam** (ml) - മലയാളം
+- **Punjabi** (pa) - ਪੰਜਾਬੀ
+- **Urdu** (ur) - اردو
+
+Language switcher is available in the top navigation bar. All UI text, charts, and reports are dynamically translated.
+
+---
+
+## ✨ New Features (Latest Update)
+
+### 1. Power BI Advanced Dashboard
+Interactive dashboard with Power BI-style cross-filtering:
+- **KPI Cards**: Average AQI, Max/Min PM2.5, Good/Poor days count
+- **8+ Chart Types**: Bar, pie, donut, line, area, scatter, treemap
+- **Cross-Filtering**: Click any chart element → all charts update instantly
+- **Export**: Download entire dashboard as PNG
+- **AI Insights**: Gemini-powered analysis (optional)
+
+### 2. What-If Simulator
+Policy simulation tool for pollution reduction:
+- **Source Apportionment**: Adjust pollution sources (vehicular, industrial, biomass, dust)
+- **Scenario Modeling**: See impact of policy changes on AQI
+- **City Comparison**: Simulate across multiple cities
+- **Scientifically Validated**: Based on CPCB source apportionment studies
+
+### 3. Ensemble Optimizer
+Advanced ML model tuning:
+- **Weight Optimization**: Adjust ensemble model weights interactively
+- **Uncertainty Analysis**: View prediction confidence by AQI range
+- **Radar Comparison**: Multi-metric model comparison
+- **Real Metrics**: Uses actual Jupyter Notebook training results
+
+### 4. Model Performance Monitor
+Production ML monitoring:
+- **Drift Detection**: Track model accuracy degradation over time
+- **Error Tracking**: MAE/RMSE trends by week
+- **Feature Importance**: SHAP-based feature rankings
+- **Alert System**: Health/critical/warning status indicators
+
+### 5. Multi-Language Support (i18n)
+- **10 Indian languages** with complete translations
+- **Dynamic switching** without page reload
+- **Localized reports** and chart labels
+
+---
+
 ## 🔌 API & Data Sources
 
 ### Live Data Sources
@@ -225,23 +285,29 @@ All endpoints are under `/api/trpc/` and use tRPC's type-safe RPC protocol.
 - **Animations** — Framer Motion GPU-accelerated transitions
 - **Accessibility** — WCAG AAA compliant (ARIA labels, keyboard nav, focus rings)
 
-### 13 Pages
+### 19 Pages (Complete Feature List)
 
-| # | Page | Purpose | Key Charts |
-|---|------|---------|-----------|
-| 1 | Overview | National dashboard | Donut (distribution), KPI cards, city grid |
-| 2 | City Detail | Deep-dive single city | Area (history), gauge, radar, seasonal |
-| 3 | India Map | Geographic view | SVG map with 108 city dots |
-| 4 | Rankings | Sorted list | Bar chart, sortable table |
-| 5 | Forecast | ML predictions | Line with confidence band |
-| 6 | Comparison | Multi-city | Radar, historical overlay |
-| 7 | Analytics | Statistical | Correlation heatmap, violin, heatmap calendar |
-| 8 | ML Predictions | Model explainability | SHAP beeswarm, force, dependence, parallel coords |
-| 9 | DS Dashboard | Pipeline status | Model comparison, feature importance |
-| 10 | Health Advisory | Health guidance | AQI slider, health effects |
-| 11 | API Settings | Key management | Multi-key input, AES-256 encryption |
-| 12 | Reports | Export | PDF (html2canvas+jsPDF), CSV |
-| 13 | About | Project info | Tech stack, methodology, metrics |
+| # | Page | Purpose | Key Features |
+|---|------|---------|-------------||
+| 1 | **Overview** | National dashboard | Donut (distribution), KPI cards, city grid |
+| 2 | **City Detail** | Deep-dive single city | Area (history), gauge, radar, seasonal |
+| 3 | **India Map** | Geographic view | SVG map with 108 city dots |
+| 4 | **Rankings** | Sorted list | Bar chart, sortable table |
+| 5 | **Forecast** | ML predictions | Line with confidence band |
+| 6 | **Comparison** | Multi-city | Radar, historical overlay |
+| 7 | **Analytics** | Statistical | Correlation heatmap, violin, heatmap calendar |
+| 8 | **ML Predictions** | Model explainability | SHAP beeswarm, force, dependence, parallel coords |
+| 9 | **DS Dashboard** | Pipeline status | Model comparison, feature importance |
+| 10 | **Power BI Dashboard** | Interactive analytics | Cross-filtering, KPI cards, 8+ chart types, export |
+| 11 | **What-If Simulator** | Policy simulation | Pollution source sliders, scenario modeling |
+| 12 | **Ensemble Optimizer** | ML tuning | Weight optimization, uncertainty analysis |
+| 13 | **Model Performance** | Monitoring | Drift detection, error tracking, accuracy history |
+| 14 | **Health Advisory** | Health guidance | AQI slider, health effects |
+| 15 | **API Settings** | Key management | Multi-key input, AES-256 encryption |
+| 16 | **Reports** | Export | PDF (html2canvas+jsPDF), CSV |
+| 17 | **About** | Project info | Tech stack, methodology, metrics |
+| 18 | **Component Showcase** | UI library | All reusable components |
+| 19 | **AI Chat Box** | Conversational UI | Gemini-powered assistant |
 
 ---
 

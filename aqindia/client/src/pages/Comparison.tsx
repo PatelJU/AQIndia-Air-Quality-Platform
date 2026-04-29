@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { getAQICategory, POLLUTANT_LABELS, POLLUTANT_COLORS } from "@/lib/aqi";
@@ -17,10 +17,40 @@ import { helpContent } from "@/lib/helpContent";
 
 const COLORS = ["#3B82F6", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"];
 
+// Helper to load/save selected cities from localStorage
+const STORAGE_KEY = "aqindia_comparison_cities";
+
+function getStoredCities(): string[] {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {
+    console.error("[Comparison] Failed to load stored cities:", e);
+  }
+  return ["delhi", "mumbai", "bangalore"]; // Default fallback
+}
+
+function saveStoredCities(cities: string[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cities));
+  } catch (e) {
+    console.error("[Comparison] Failed to save cities:", e);
+  }
+}
+
 export default function Comparison() {
-  const [selectedCities, setSelectedCities] = useState<string[]>(["delhi", "mumbai", "bangalore"]);
+  // Load from localStorage on first render, persist across navigation
+  const [selectedCities, setSelectedCities] = useState<string[]>(getStoredCities);
   const [addCity, setAddCity] = useState("");
   const { t } = useTranslation();
+
+  // Save to localStorage whenever selectedCities changes
+  useEffect(() => {
+    saveStoredCities(selectedCities);
+  }, [selectedCities]);
 
   const { data: cities } = trpc.cities.all.useQuery();
   const { data: compData, isLoading, error } = trpc.analytics.cityComparison.useQuery({ cityIds: selectedCities });
