@@ -288,7 +288,7 @@ All endpoints are under `/api/trpc/` and use tRPC's type-safe RPC protocol.
 ### 19 Pages (Complete Feature List)
 
 | # | Page | Purpose | Key Features |
-|---|------|---------|-------------||
+|---|------|---------|-------------|
 | 1 | **Overview** | National dashboard | Donut (distribution), KPI cards, city grid |
 | 2 | **City Detail** | Deep-dive single city | Area (history), gauge, radar, seasonal |
 | 3 | **India Map** | Geographic view | SVG map with 108 city dots |
